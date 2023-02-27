@@ -47,6 +47,10 @@ const navItems = [
     icon: <ShoppingCartOutlined />,
   },
   {
+    text: "Lectures",
+    icon: <ShoppingCartOutlined />,
+  },
+  {
     text: "Customers",
     icon: <Groups2Outlined />,
   },

@@ -1,6 +1,8 @@
 import Product from "../models/Product.js";
 import ProductStat from "../models/ProductStat.js";
 import User from "../models/User.js";
+import Lecture from "../models/Lecture.js";
+import Course from "../models/Course.js";
 import Transaction from "../models/Transaction.js";
 import getCountryIso3 from "country-iso-2-to-3";
 
@@ -98,3 +100,20 @@ export const getGeography = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+// post request to add a lecture
+export const postLecture = async (req, res) => {
+  const { no, title, content, courseId } = req.body;
+  const newLecture = new Lecture({
+    no,
+    title,
+    content,
+    courseId
+  });
+  console.log(courseId)
+  newLecture.save()
+  Course.findOneAndUpdate({ _id: courseId }, { $push: { lectures: newLecture._id } }).then((course) => console.log(course))
+  res.status(200).json({ message: "lecture added successfully" })
+
+
+}
+
