@@ -100,6 +100,20 @@ export const getGeography = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+// get all courses
+export const getCourses = async (req, res) => {
+  Course
+    .find().then((courses) => {
+      res.status(200).json(courses)
+    })
+}
+// fetch a course using params
+export const fetchCourse = async (req, res) => {
+  const { id } = req.query;
+  Course.findOne({ _id: id }).then((course) => {
+    res.status(200).json(course)
+  })
+}
 // post request to add a lecture
 export const postLecture = async (req, res) => {
   const { no, title, content, courseId } = req.body;

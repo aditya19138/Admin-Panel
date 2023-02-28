@@ -4,95 +4,23 @@ import {
     TextField
 } from "@mui/material";
 import axios from "axios";
-import Header from "components/Header";
-import { useGetProductsQuery } from "state/api";
 import { Editor } from '@tinymce/tinymce-react';
-import profileImage from "assets/profile.jpeg";
 
-
-// const Product = ({
-//     _id,
-//     name,
-//     description,
-//     price,
-//     rating,
-//     category,
-//     supply,
-//     stat,
-// }) => {
-//     const theme = useTheme();
-//     const [isExpanded, setIsExpanded] = useState(false);
-
-//     return (
-//         <Card
-//             sx={{
-//                 backgroundImage: "none",
-//                 backgroundColor: theme.palette.background.alt,
-//                 borderRadius: "0.55rem",
-//             }}
-//         >
-//             <CardContent>
-//                 <Typography
-//                     sx={{ fontSize: 14 }}
-//                     color={theme.palette.secondary[700]}
-//                     gutterBottom
-//                 >
-//                     {category}
-//                 </Typography>
-//                 <Typography variant="h5" component="div">
-//                     {name}
-//                 </Typography>
-//                 <Typography sx={{ mb: "1.5rem" }} color={theme.palette.secondary[400]}>
-//                     ${Number(price).toFixed(2)}
-//                 </Typography>
-//                 <Rating value={rating} readOnly />
-
-//                 <Typography variant="body2">{description}</Typography>
-//             </CardContent>
-//             <CardActions>
-//                 <Button
-//                     variant="primary"
-//                     size="small"
-//                     onClick={() => setIsExpanded(!isExpanded)}
-//                 >
-//                     See More
-//                 </Button>
-//             </CardActions>
-//             <Collapse
-//                 in={isExpanded}
-//                 timeout="auto"
-//                 unmountOnExit
-//                 sx={{
-//                     color: theme.palette.neutral[300],
-//                 }}
-//             >
-//                 <CardContent>
-//                     <Typography>id: {_id}</Typography>
-//                     <Typography>Supply Left: {supply}</Typography>
-//                     <Typography>
-//                         Yearly Sales This Year: {stat.yearlySalesTotal}
-//                     </Typography>
-//                     <Typography>
-//                         Yearly Units Sold This Year: {stat.yearlyTotalSoldUnits}
-//                     </Typography>
-//                 </CardContent>
-//             </Collapse>
-//         </Card>
-//     );
-// };
-
-const Products = () => {
+const Lectures = () => {
     // const { data, isLoading } = useGetProductsQuery();
     // const isNonMobile = useMediaQuery("(min-width: 1000px)");
+    const [title, setTitle] = useState("");
+    const [courseId, setCourseId] = useState("");
     const editorRef = useRef(null);
     const log = () => {
         if (editorRef.current) {
+            console.log(title)
             // axios posst request to serve
-            axios.post('/lecture/add', {
+            axios.post('http://localhost:5000/client/lecture/add', {
                 no: 1,
-                title: "Lecture 1",
-                content: editorRef.current.getContent()
-                courseId: "636a270e66ec5d3bb8f7ff2f"
+                title: title,
+                content: editorRef.current.getContent(),
+                courseId: courseId
             })
                 .then(function (response) {
                     console.log(response);
@@ -105,7 +33,9 @@ const Products = () => {
     };
     return (
         <>
-            <h1>Lecture content</h1>
+            <TextField id="outlined-basic" label="Title" variant="outlined" onChange={(event) => setTitle(event.target.value)} />
+            <TextField id="outlined-basic" label="CourseId" variant="outlined" onChange={(event) => setCourseId(event.target.value)} />
+            <h2>Content</h2>
             <Editor apiKey='18njo3cex5ijqgdwlkqewqxzo8xxvuiln9hwtasdb5muxnth'
                 onInit={(evt, editor) => editorRef.current = editor}
                 initialValue="<p>This is the initial content of the editor.</p>"
@@ -135,4 +65,4 @@ const Products = () => {
     );
 };
 
-export default Products;
+export default Lectures;
