@@ -7,4 +7,4 @@ This will create a localhost server for your database and to connect this to you
 
 ### Sample Data
 Some sample data is provided in the form of dump folder. Inorder to retrieve this locally download the dump folder and use mongorestore command of MongoDB Database Tools.
-Link for data dump is [here]("https://drive.google.com/drive/folders/1iukZAvQw5slAkMhbS1B_A0tD_4vhxqEV?usp=share_link")
+Link for data dump is [here](https://drive.google.com/drive/folders/1iukZAvQw5slAkMhbS1B_A0tD_4vhxqEV?usp=share_link)
