@@ -5,12 +5,12 @@ import CoursePhoto from "../assets/CoursePhoto.png";
 
 export default function CourseCard(props) {
     const navigate = useNavigate();
-    console.log(props);
     const handleLearn = (e) => {
         e.preventDefault();
         const course_id = e.target.getAttribute("id");
+        console.log(course_id);
         const params = {
-            course_id,
+            course_id
         };
         let url = "/coursedetails";
         let uri = axios.getUri({ url, params });
@@ -52,8 +52,9 @@ export default function CourseCard(props) {
                             onClick={handleLearn}
                             class="text-[#151515] bg-[#2AF1FF] tracking-widest rounded text-[0.5rem]  font-BrinnanBold px-4 py-2.5 text-center  "
                         >
-                            LEARN MORE <span className="font-InterSemibold">↗ </span>
+                            View Lectures <span className="font-InterSemibold">↗ </span>
                         </button>
+
                     ) : (
                         <p className="bg-clip-text text-transparent bg-gradient-to-r from-[#797979CC] to-[#4B4B4BCC] font-BrinnanBold  text-md font-extrabold  mt-1">
                             COMING SOON

@@ -35,24 +35,12 @@ import profileImage from "assets/profile.jpeg";
 
 const navItems = [
   {
-    text: "Dashboard",
-    icon: <HomeOutlined />,
-  },
-  {
-    text: "Client Facing",
-    icon: null,
-  },
-  {
     text: "Lectures",
     icon: <ShoppingCartOutlined />,
   },
   {
     text: "Courses",
     icon: <ShoppingCartOutlined />,
-  },
-  {
-    text: "Admin",
-    icon: <AdminPanelSettingsOutlined />,
   },
 ];
 

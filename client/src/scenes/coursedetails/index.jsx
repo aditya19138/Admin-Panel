@@ -1,46 +1,26 @@
-import { useState, useEffect, cloneElement } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
-async function generate(element, course_id) {
-    // let lecData = null;
-
-    // await axios({
-    //     method: "get",
-    //     url: `http://localhost:5000/client/course?id=${course_id}`,
-    // }).then((res) => {
-    //     lecData = res.data.lectures;
-    //     console.log(lecData);
-    //     // setLecture(res.data.lectures);
-    // }).catch((err) => { console.log(err) });
-
-    // return lecData.map((value) =>
-    //     cloneElement(element, {
-    //         key: value,
-    //     }),
-    // );
-    // );
-    return [0, 1, 2, 3].map((value) =>
-        cloneElement(element, {
+function generate(element) {
+    return [0, 1, 2].map((value) =>
+        React.cloneElement(element, {
             key: value,
-        })
+        }),
     );
 }
 
@@ -49,46 +29,59 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 export default function InteractiveList() {
-    const [dense, setDense] = useState(false);
-    const [secondary, setSecondary] = useState(false);
-    // get the params form the current route
-
+    const [lecData, setLecData] = useState(null);
     let [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const courseId = searchParams.get("course_id");
-    console.log(courseId);
-    const [lecData, setLecData] = useState();
-    const setLecture = (data) => {
-        setLecData(data);
+    console.log("courseId=" + courseId);
+    let url = "/lectures"
+
+
+    const fetchLectures = async () => {
+        await axios.get(`http://localhost:5000/client/lectures?id=${courseId}`)
+            .then((response) => {
+                setLecData(response.data)
+                console.log(response.data[0])
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
+    useEffect(() => {
+        fetchLectures();
+    }, [])
+
+    console.log(lecData)
     return (
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Grid item xs={12} md={6}>
-                <Demo>
-                    <List dense={dense}>
-                        {generate(
-                            // <h1>hello world</h1>
-                            <ListItem
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                }
-                            >
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <FolderIcon />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary="Single-line item"
-                                    secondary={secondary ? 'Secondary text' : null}
-                                />
-                            </ListItem>, courseId
-                        )}
-                    </List>
-                </Demo>
-            </Grid>
-        </Box >
+            <Demo>
+                <List >
+                    {lecData?.map((item) => (
+                        // create a list of lectures with link to lecture details
+
+                        <ListItem
+                            key={item._id}
+                            component={Link}
+                            to={`/lecture?lecId=${item._id}`}
+                            // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
+                            secondaryAction={
+                                <IconButton edge="end" aria-label="delete">
+                                    <DeleteIcon />
+                                </IconButton>
+                            }
+                        >
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <FolderIcon />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={item.title}
+                            />
+                        </ListItem>)
+                    )}
+                </List>
+            </Demo>
+        </Box>
     );
 }

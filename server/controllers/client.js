@@ -107,13 +107,27 @@ export const getCourses = async (req, res) => {
       res.status(200).json(courses)
     })
 }
-// fetch a course using params
-export const fetchCourse = async (req, res) => {
+
+// fetch lectures of a particular course
+export const fetchLectures = async (req, res) => {
   const { id } = req.query;
-  Course.findOne({ _id: id }).then((course) => {
-    res.status(200).json(course)
-  })
+  Course.find({ _id: id })
+    .populate('lectures')
+    .then((resp) => {
+      let lectures = resp[0].lectures
+      res.status(200).json(lectures)
+    })
 }
+
+// fetch a single lecture
+export const getLecture = async (req, res) => {
+  const { id } = req.query;
+  Lecture.find({ _id: id })
+    .then((resp) => {
+      res.status(200).json(resp)
+    })
+}
+
 // post request to add a lecture
 export const postLecture = async (req, res) => {
   const { no, title, content, courseId } = req.body;
@@ -127,6 +141,16 @@ export const postLecture = async (req, res) => {
   newLecture.save()
   Course.findOneAndUpdate({ _id: courseId }, { $push: { lectures: newLecture._id } }).then((course) => console.log(course))
   res.status(200).json({ message: "lecture added successfully" })
+
+
+}
+
+// patch request to update a lecture
+export const updateLecture = async (req, res) => {
+  const { title, content, lectureId } = req.body;
+  Lecture.findOneAndUpdate({ _id: lectureId }, { title, content })
+    .then((lecture) => console.log(lecture))
+  res.status(200).json({ message: "lecture updated successfully" })
 
 
 }

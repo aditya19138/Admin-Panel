@@ -15,7 +15,7 @@ const CourseSchema = new Schema(
         category: { type: Schema.Types.ObjectId, ref: "Category" },
         lectures: [{
             type: Schema.Types.ObjectId,
-            ref: "Lecture"
+            ref: "lectures"
         }],
         enrolledStudents: [{
             type: Schema.Types.ObjectId,
