@@ -42,6 +42,10 @@ const navItems = [
     text: "Courses",
     icon: <ShoppingCartOutlined />,
   },
+  {
+    text: "Users",
+    icon: <ShoppingCartOutlined />,
+  },
 ];
 
 const Sidebar = ({

@@ -20,7 +20,7 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 export default function InteractiveList() {
-    const [lecData, setLecData] = useState(null);
+    const [usersData, setUsersData] = useState(null);
     let [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const courseId = searchParams.get("course_id");
@@ -28,65 +28,55 @@ export default function InteractiveList() {
     let url = "/lectures"
 
 
-    const fetchLectures = async () => {
-        await axios.get(`http://localhost:5000/client/lectures?id=${courseId}`)
+    const fetchUsers = async () => {
+        await axios.get(`http://localhost:5000/client/users`)
             .then((response) => {
-                setLecData(response.data)
-                console.log(response.data[0])
+                setUsersData(response.data)
+                console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             })
     }
-    const handleDelete = async (lectureId) => {
-        await axios.post(`http://localhost:5000/client/lecture/delete?id=${lectureId}`, {
-            lectureId: lectureId,
-            courseId: courseId
-
+    const handleDelete = async (userId) => {
+        await axios.post(`http://localhost:5000/client/user/delete?id=${userId}`, {
+            userId: userId
         })
             .then((response) => {
                 console.log(response.data)
-                setLecData(lecData.filter((lecture) => lecture._id !== lectureId));
+                setUsersData(usersData.filter((users) => users._id !== userId));
             }).catch((error) => {
                 console.log(error)
             })
     };
 
-
     useEffect(() => {
-        fetchLectures();
+        fetchUsers();
     }, [])
 
-    console.log(lecData)
+    // console.log(lecData)
     return (
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
             <Demo>
                 <List >
-                    {lecData?.map((item) => (
+                    {usersData?.map((item) => (
                         // create a list of lectures with link to lecture details
 
                         <ListItem
                             key={item._id}
-                            component={Link}
-                            to={`/lecture?lecId=${item._id}`}
-                            // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
                             secondaryAction={
                                 <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             }
                         >
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <FolderIcon />
-                                </Avatar>
-                            </ListItemAvatar>
                             <ListItemText
-                                primary={item.title}
+                                primary={item.first_name + " " + item.last_name}
+                                secondary={item.email}
                             />
                         </ListItem>)
                     )}
                 </List>
-            </Demo>
-        </Box>
+            </Demo >
+        </Box >
     );
 }

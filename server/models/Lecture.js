@@ -10,7 +10,7 @@ const LectureSchema = new Schema({
         type: String,
         required: true
     },
-    course: { type: Schema.Types.ObjectId, ref: 'courses' },
+    course: { type: Schema.Types.ObjectId, ref: 'courses', required: true },
     content: String,
     assignments: [{
         type: Schema.Types.ObjectId,

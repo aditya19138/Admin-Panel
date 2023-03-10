@@ -131,16 +131,21 @@ export const getLecture = async (req, res) => {
 // post request to add a lecture
 export const postLecture = async (req, res) => {
   const { no, title, content, courseId } = req.body;
+  console.log(req.body)
   const newLecture = new Lecture({
     no,
     title,
     content,
-    courseId
+    course: courseId
   });
-  console.log(courseId)
   newLecture.save()
-  Course.findOneAndUpdate({ _id: courseId }, { $push: { lectures: newLecture._id } }).then((course) => console.log(course))
-  res.status(200).json({ message: "lecture added successfully" })
+    .then((lecture) => {
+      console.log(lecture)
+      Course.findOneAndUpdate({ _id: courseId }, { $push: { lectures: newLecture._id } })
+        .then((course) => res.status(200).json({ message: "lecture added successfully" })
+        )
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
 
 
 }
@@ -154,4 +159,31 @@ export const updateLecture = async (req, res) => {
 
 
 }
+// post request to delete a lecture
+export const deleteLecture = async (req, res) => {
+  const { lectureId, courseId } = req.body;
+  console.log(lectureId, courseId)
+  Lecture.deleteOne({ _id: lectureId })
+    .then((lecture) => console.log(lecture))
+  Course.findOneAndUpdate({ _id: courseId }, { $pull: { lectures: lectureId } })
+    .then((course) => console.log(course))
+  res.status(200).json({ message: "lecture deleted successfully" })
+}
+
+// get request to get all the registers users
+export const getUsers = async (req, res) => {
+  User.find().then((users) => {
+    res.status(200).json(users)
+  })
+}
+
+// post request to delete a user
+export const deleteUser = async (req, res) => {
+  const { userId } = req.body;
+  console.log(userId)
+  User.deleteOne({ _id: userId })
+    .then((user) => res.status(200).json({ message: "user deleted successfully" }))
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
 

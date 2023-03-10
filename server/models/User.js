@@ -1,38 +1,49 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema
 
-const UserSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      min: 2,
-      max: 100,
-    },
-    email: {
-      type: String,
-      required: true,
-      max: 50,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      min: 5,
-    },
-    city: String,
-    state: String,
-    country: String,
-    occupation: String,
-    phoneNumber: String,
-    transactions: Array,
-    role: {
-      type: String,
-      enum: ["user", "admin", "superadmin"],
-      default: "admin",
-    },
+const courseCompletedSchema = new Schema({
+  courseId: {
+    type: Schema.Types.ObjectId,
+    ref: "Course",
+    required: true
   },
-  { timestamps: true }
-);
+  completedLectures: [{
+    type: Schema.Types.ObjectId,
+    ref: "Lecture",
+  }]
+})
 
-const User = mongoose.model("User", UserSchema);
-export default User;
+const UserSchema = new Schema({
+  first_name: {
+    type: String,
+    lowercase: true,
+  },
+  last_name: {
+    type: String,
+    lowercase: true,
+  },
+  email: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  wallet_address: [{
+    type: String
+  }],
+  role: {
+    type: String,
+    required: true
+  },
+  courses: [{
+    type: courseCompletedSchema
+  }]
+
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }); //automatically add while insert or update the object
+
+const User = mongoose.model('users', UserSchema)
+export default User

@@ -9,6 +9,7 @@ import Dashboard from "scenes/dashboard";
 import Products from "scenes/products";
 import Lectures from "scenes/lectures";
 import Courses from "scenes/courses";
+import Users from "scenes/users";
 import CourseDetails from "scenes/coursedetails";
 import Customers from "scenes/customers";
 import Transactions from "scenes/transactions";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/lectures" element={<Lectures />} />
               <Route path="/lecture" element={<Lectures />} /> // route for lecture details
               <Route path="/courses" element={<Courses />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/coursedetails" element={<CourseDetails />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/transactions" element={<Transactions />} />
