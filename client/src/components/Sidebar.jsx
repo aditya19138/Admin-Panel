@@ -46,6 +46,10 @@ const navItems = [
     text: "Users",
     icon: <ShoppingCartOutlined />,
   },
+  {
+    text: "Assignments",
+    icon: <ShoppingCartOutlined />
+  }
 ];
 
 const Sidebar = ({
@@ -88,7 +92,7 @@ const Sidebar = ({
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <Typography variant="h4" fontWeight="bold">
-                    ECOMVISION
+                    Lumos Labs Admin Panel
                   </Typography>
                 </Box>
                 {!isNonMobile && (

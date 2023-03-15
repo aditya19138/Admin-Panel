@@ -11,7 +11,9 @@ import {
   updateLecture,
   getUsers,
   deleteLecture,
-  deleteUser
+  deleteUser,
+  getAssignments,
+  deleteAsgn,
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -26,6 +28,8 @@ router.post("/lecture/delete", deleteLecture);
 router.get("/courses", getCourses);
 router.get("/users", getUsers)
 router.post("/user/delete", deleteUser)
+router.get("/assignments", getAssignments);
+// router.post("/assignment/delete", deleteAsgn)
 router.get("/transactions", getTransactions);
 router.get("/geography", getGeography);
 

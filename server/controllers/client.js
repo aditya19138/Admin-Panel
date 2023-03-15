@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import Lecture from "../models/Lecture.js";
 import Course from "../models/Course.js";
 import Transaction from "../models/Transaction.js";
+import Assignment from "../models/Assignment.js";
 import getCountryIso3 from "country-iso-2-to-3";
 
 export const getProducts = async (req, res) => {
@@ -185,5 +186,25 @@ export const deleteUser = async (req, res) => {
     .then((user) => res.status(200).json({ message: "user deleted successfully" }))
     .catch((err) => res.status(500).json({ message: err.message }))
 }
+
+// get request to get all the assignments
+export const getAssignments = async (req, res) => {
+  Assignment.find().then((assignments) => {
+    res.status(200).json(assignments)
+  })
+}
+// post request to add a new assignment
+
+
+// post request to delete an assignment
+export const deleteAsgn = async (req, res) => {
+  const { asgnId, lectureId } = req.body;
+  Assignment.deleteOne({ _id: asgnId })
+    .then((asgn) => console.log(asgn))
+  Lecture.findOneAndUpdate({ _id: lectureId }, { $pull: { assignments: asgnId } })
+    .then((lecture) => console.log(lecture))
+  res.status(200).json({ message: "assignment deleted successfully " })
+}
+
 
 

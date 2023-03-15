@@ -11,6 +11,8 @@ import Lectures from "scenes/lectures";
 import Courses from "scenes/courses";
 import Users from "scenes/users";
 import CourseDetails from "scenes/coursedetails";
+import Assignments from "scenes/assignments";
+import AddAssignment from "scenes/addAssignment";
 import Customers from "scenes/customers";
 import Transactions from "scenes/transactions";
 import Geography from "scenes/geography";
@@ -31,7 +33,7 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/" element={<Navigate to="/courses" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
               <Route path="/lectures" element={<Lectures />} />
@@ -39,6 +41,8 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/users" element={<Users />} />
               <Route path="/coursedetails" element={<CourseDetails />} />
+              <Route path="/assignments" element={<Assignments />} />
+              <Route path="/assignments/add" element={<AddAssignment />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/transactions" element={<Transactions />} />
               <Route path="/geography" element={<Geography />} />
