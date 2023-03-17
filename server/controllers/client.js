@@ -194,7 +194,22 @@ export const getAssignments = async (req, res) => {
   })
 }
 // post request to add a new assignment
+export const addAssignment = async (req, res) => {
+  const { lectureId, question, options, correctAns, type } = req.body;
+  const mcq = {
+    options: options,
+    correctAnswer: correctAns
+  }
+  const newAsgn = new Assignment({
+    question: question,
+    lectureId: lectureId,
+    multiplechoices: [mcq],
+    assignmenttype: type
 
+  })
+  newAsgn.save()
+    .then((asgn) => console.log(asgn))
+}
 
 // post request to delete an assignment
 export const deleteAsgn = async (req, res) => {

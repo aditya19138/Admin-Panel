@@ -9,6 +9,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -39,17 +40,17 @@ export default function InteractiveList() {
             })
     }
     const handleDelete = async (asgnId, lecId) => {
-        await axios.post(`http://localhost:5000/client/assignment/delete`, {
-            asgnId: asgnId,
-            lectureId: lecId
+        // await axios.post(`http://localhost:5000/client/assignment/delete`, {
+        //     asgnId: asgnId,
+        //     lectureId: lecId
 
-        })
-            .then((response) => {
-                console.log(response.data)
-                setAsgnData(asgnData.filter((asgn) => asgn._id !== asgnId));
-            }).catch((error) => {
-                console.log(error)
-            })
+        // })
+        //     .then((response) => {
+        //         console.log(response.data)
+        //         setAsgnData(asgnData.filter((asgn) => asgn._id !== asgnId));
+        //     }).catch((error) => {
+        //         console.log(error)
+        //     })
     };
 
 
@@ -59,7 +60,15 @@ export default function InteractiveList() {
 
     // console.log(asgnData)
     return (
+
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+            <Button
+                variant="contained"
+                component={Link}
+                to={"/assignments/add"}
+            >
+                Add Assignment
+            </Button>
             <Demo>
                 <List >
                     {asgnData?.map((item) => (
