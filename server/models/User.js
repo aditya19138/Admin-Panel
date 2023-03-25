@@ -45,5 +45,5 @@ const UserSchema = new Schema({
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }); //automatically add while insert or update the object
 
-const User = mongoose.model('users', UserSchema)
+const User = mongoose.model('user', UserSchema)
 export default User

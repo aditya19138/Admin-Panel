@@ -14,6 +14,12 @@ export default function MultilineTextFields() {
     const [lecData, setLecData] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedLecture, setSelectedLecture] = useState(null);
+    const [question, setQuestion] = useState(null);
+    const [answer, setAnswer] = useState(null);
+    const [option1, setOption1] = useState(null);
+    const [option2, setOption2] = useState(null);
+    const [option3, setOption3] = useState(null);
+    const [option4, setOption4] = useState(null);
 
     const fetchCourses = async () => {
         await axios({
@@ -37,6 +43,21 @@ export default function MultilineTextFields() {
     const handleCourseSelectChange = (e) => {
         setSelectedCourse(e.target.value);
         console.log(e.target.value);
+    }
+    const addAssignment = async (lectureId) => {
+        const options = [option1, option2, option3, option4];
+        await axios.post(`http://localhost:5000/client/assignments/add`, {
+            lectureId: lectureId,
+            question: question,
+            type: "multiple-choice",
+            options: options,
+            correctAns: answer
+        }).then((response) => {
+            alert("Assignment added successfully");
+            console.log(response.data)
+        }).catch((error) => {
+            console.log(error)
+        });
     }
     useEffect(() => {
         console.log(selectedCourse);
@@ -100,6 +121,7 @@ export default function MultilineTextFields() {
                     label="Question"
                     multiline
                     maxRows={4}
+                    onChange={(e) => setQuestion(e.target.value)}
                 />
             </div>
             <div>
@@ -110,6 +132,7 @@ export default function MultilineTextFields() {
                     multiline
                     maxRows={4}
                     variant="filled"
+                    onChange={(e) => setOption1(e.target.value)}
                 />
                 <TextField
                     id="filled-multiline-flexible "
@@ -118,6 +141,7 @@ export default function MultilineTextFields() {
                     multiline
                     maxRows={4}
                     variant="filled"
+                    onChange={(e) => setOption2(e.target.value)}
                 />
                 <TextField
                     id="filled-multiline-flexible "
@@ -126,6 +150,7 @@ export default function MultilineTextFields() {
                     multiline
                     maxRows={4}
                     variant="filled"
+                    onChange={(e) => setOption3(e.target.value)}
                 />
                 <TextField
                     id="filled-multiline-flexible "
@@ -134,6 +159,7 @@ export default function MultilineTextFields() {
                     multiline
                     maxRows={4}
                     variant="filled"
+                    onChange={(e) => setOption4(e.target.value)}
                 />
                 <TextField
                     id="filled-multiline-flexible "
@@ -142,8 +168,13 @@ export default function MultilineTextFields() {
                     multiline
                     maxRows={4}
                     variant="filled"
+                    onChange={(e) => setAnswer(e.target.value)}
                 />
-                <Button variant="contained" color="success">
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => addAssignment(selectedLecture)}
+                >
                     Submit Question
                 </Button>
             </div>

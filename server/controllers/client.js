@@ -6,6 +6,7 @@ import Course from "../models/Course.js";
 import Transaction from "../models/Transaction.js";
 import Assignment from "../models/Assignment.js";
 import getCountryIso3 from "country-iso-2-to-3";
+import Category from "../models/Category.js";
 
 export const getProducts = async (req, res) => {
   try {
@@ -196,6 +197,7 @@ export const getAssignments = async (req, res) => {
 // post request to add a new assignment
 export const addAssignment = async (req, res) => {
   const { lectureId, question, options, correctAns, type } = req.body;
+  console.log(options)
   const mcq = {
     options: options,
     correctAnswer: correctAns
@@ -206,9 +208,9 @@ export const addAssignment = async (req, res) => {
     multiplechoices: [mcq],
     assignmenttype: type
 
-  })
+  });
   newAsgn.save()
-    .then((asgn) => console.log(asgn))
+    .then((asgn) => res.send(asgn))
 }
 
 // post request to delete an assignment
@@ -220,6 +222,51 @@ export const deleteAsgn = async (req, res) => {
     .then((lecture) => console.log(lecture))
   res.status(200).json({ message: "assignment deleted successfully " })
 }
+
+// view enrollments in a course
+export const viewEnrollments = async (req, res) => {
+  const { id } = req.query;
+  console.log(id);
+  Course.findOne({ _id: id })
+    .populate('enrolledStudents')
+    .then((course) => {
+      // console.log(course.enrolledStudents);
+      res.json(course.enrolledStudents);
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+
+}
+// get request to get all categories
+export const getCategories = async (req, res) => {
+  Category.find().then((categories) => {
+    res.status(200).json(categories)
+  })
+}
+
+// get request to get all the instructors
+export const getInstructors = async (req, res) => {
+  User.find({ role: "instructor" })
+    .then((instructors) => {
+      res.status(200).json(instructors)
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+// post request to unenroll a student
+export const unenrollStudent = async (req, res) => {
+  const courseId = req.query.id;
+  const { userId } = req.body;
+  console.log(courseId, userId)
+  Course.findOne({ _id: courseId })
+    .then((course) => {
+      course.enrolledStudents.pull(userId);
+      course.save()
+        .then((course) => res.status(200).json({ message: "student unenrolled successfully" }))
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+
 
 
 

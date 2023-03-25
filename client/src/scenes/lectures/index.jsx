@@ -47,7 +47,7 @@ const Lectures = () => {
                 lectureId: LecId
             })
                 .then(function (response) {
-                    console.log(response);
+                    console.log(alert("Lecture Updated Successfully"));
                 })
                 .catch(function (error) {
                     console.log(error);

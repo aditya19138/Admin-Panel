@@ -6,22 +6,18 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
 import Layout from "scenes/layout";
 import Dashboard from "scenes/dashboard";
-import Products from "scenes/products";
 import Lectures from "scenes/lectures";
 import Courses from "scenes/courses";
 import Users from "scenes/users";
 import CourseDetails from "scenes/coursedetails";
 import Assignments from "scenes/assignments";
 import AddAssignment from "scenes/addAssignment";
-import Customers from "scenes/customers";
-import Transactions from "scenes/transactions";
-import Geography from "scenes/geography";
-import Overview from "scenes/overview";
-import Daily from "scenes/daily";
-import Monthly from "scenes/monthly";
-import Breakdown from "scenes/breakdown";
+import Enrollments from "scenes/enrollments";
+import Login from "scenes/login";
 import Admin from "scenes/admin";
-import Performance from "scenes/performance";
+import RequireAuth from "./components/RequireAuth";
+import AddCourse from "scenes/addCourse";
+
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -31,27 +27,24 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          {/* <Layout /> */}
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Navigate to="/courses" replace />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/lectures" element={<Lectures />} />
-              <Route path="/lecture" element={<Lectures />} /> // route for lecture details
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/coursedetails" element={<CourseDetails />} />
-              <Route path="/assignments" element={<Assignments />} />
-              <Route path="/assignments/add" element={<AddAssignment />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/transactions" element={<Transactions />} />
-              <Route path="/geography" element={<Geography />} />
-              <Route path="/overview" element={<Overview />} />
-              <Route path="/daily" element={<Daily />} />
-              <Route path="/monthly" element={<Monthly />} />
-              <Route path="/breakdown" element={<Breakdown />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/performance" element={<Performance />} />
+            <Route path="/login" element={<Login />} />
+            <Route element={<RequireAuth />} >
+              <Route element={<Layout />}>
+                <Route path="/" element={<Navigate to="/courses" replace />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/lectures" element={<Lectures />} />
+                <Route path="/lecture" element={<Lectures />} /> // route for lecture details
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/add" element={<AddCourse />} />
+                <Route path="/enrollments" element={<Enrollments />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/coursedetails" element={<CourseDetails />} />
+                <Route path="/assignments" element={<Assignments />} />
+                <Route path="/assignments/add" element={<AddAssignment />} />
+                <Route path="/admin" element={<Admin />} />
+              </Route>
             </Route>
           </Routes>
         </ThemeProvider>

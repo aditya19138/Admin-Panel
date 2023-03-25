@@ -7,7 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
-import managementRoutes from "./routes/management.js";
+import adminRoutes from "./routes/admin.js";
 import salesRoutes from "./routes/sales.js";
 
 // data imports
@@ -40,7 +40,7 @@ app.use(cors());
 /* ROUTES */
 app.use("/client", clientRoutes);
 app.use("/general", generalRoutes);
-app.use("/management", managementRoutes);
+app.use("/admin", adminRoutes);
 app.use("/sales", salesRoutes);
 
 /* MONGOOSE SETUP */

@@ -21,13 +21,11 @@ const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
 }));
 
-export default function InteractiveList() {
+export default function Assignments() {
     const [asgnData, setAsgnData] = useState(null);
     let [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const courseId = searchParams.get("course_id");
-    console.log("courseId=" + courseId);
-    let url = "/lectures"
+    const lecId = searchParams.get("lectureId");
+    console.log("lecId=" + lecId);
 
 
     const fetchAssignments = async () => {
@@ -38,7 +36,8 @@ export default function InteractiveList() {
             }).catch((error) => {
                 console.log(error)
             })
-    }
+    };
+
     const handleDelete = async (asgnId, lecId) => {
         // await axios.post(`http://localhost:5000/client/assignment/delete`, {
         //     asgnId: asgnId,
@@ -54,9 +53,14 @@ export default function InteractiveList() {
     };
 
 
+
     useEffect(() => {
         fetchAssignments();
     }, [])
+
+    useEffect(() => {
+        if (lecId) setAsgnData(asgnData?.filter((asgn) => asgn.lectureId === lecId));
+    }, [asgnData]);
 
     // console.log(asgnData)
     return (
@@ -80,7 +84,9 @@ export default function InteractiveList() {
                             // to={`/lecture?lecId=${item._id}`}
                             // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
                             secondaryAction={
-                                <IconButton edge="end" aria-label="delete" onClick={handleDelete(item._id, item.lectureId)} >
+                                <IconButton edge="end" aria-label="delete"
+                                    onClick={handleDelete(item._id, item.lectureId)}
+                                >
                                     <DeleteIcon />
                                 </IconButton>
                             }

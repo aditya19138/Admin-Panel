@@ -13,7 +13,6 @@ const AssignmentSchema = new Schema({
     //have two types of assignments, multiple choice and single line answer
     assignmenttype: {
         type: String,
-        required: true
     },
 
     lectureId: { type: Schema.Types.ObjectId, ref: 'Lecture' },
