@@ -11,7 +11,7 @@ export default function Coursepage() {
     const fetchCourses = async () => {
         await axios({
             method: "get",
-            url: `http://localhost:5000/client/courses`,
+            url: `${process.env.REACT_APP_API_URL}/client/courses`,
         }).then((res) => {
             console.log(res);
             setCourseData(res.data);

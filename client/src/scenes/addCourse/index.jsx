@@ -20,7 +20,7 @@ export default function MultilineTextFields() {
     const fetchCategories = async () => {
         await axios({
             method: "get",
-            url: `http://localhost:5000/client/categories`,
+            url: `${process.env.REACT_APP_API_URL}/client/categories`,
         }).then((res) => {
             console.log(res);
             setCategoryData(res.data);
@@ -28,7 +28,7 @@ export default function MultilineTextFields() {
         });
     };
     const fetchInstructors = async () => {
-        await axios.get(`http://localhost:5000/client/instructors`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/instructors`)
             .then((response) => {
                 setInstructorData(response.data)
                 console.log(response.data)
@@ -40,33 +40,20 @@ export default function MultilineTextFields() {
         setSelectedCategory(e.target.value);
         console.log(e.target.value);
     }
-    // const addAssignment = async (lectureId) => {
-    //     const options = [option1, option2, option3, option4];
-    //     await axios.post(`http://localhost:5000/client/assignments/add`, {
-    //         lectureId: lectureId,
-    //         question: question,
-    //         type: "multiple-choice",
-    //         options: options,
-    //         correctAns: answer
-    //     }).then((response) => {
-    //         alert("Assignment added successfully");
-    //         console.log(response.data)
-    //     }).catch((error) => {
-    //         console.log(error)
-    //     });
-    // }
-    // useEffect(() => {
-    //     console.log(selectedCourse);
-    //     fetchLectures();
-    // }, [selectedCourse]);
-
-    // useEffect(() => {
-    //     console.log(selectedLecture);
-    // }, [selectedLecture]);
-
-    // useEffect(() => {
-    //     console.log(lecData);
-    // }, [lecData]);
+    const addCourse = async () => {
+        console.log(selectedCategory, selectedInstructor)
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/courses/add`, {
+            courseName: title,
+            courseDescription: description,
+            category: selectedCategory,
+            instructor: selectedInstructor
+        }).then((response) => {
+            alert("Course added successfully");
+            console.log(response.data)
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
 
 
     useEffect(() => {
@@ -134,15 +121,14 @@ export default function MultilineTextFields() {
                     variant="filled"
                     onChange={(e) => setDescription(e.target.value)}
                 />
-
-                <Button
-                    variant="contained"
-                    color="success"
-                // onClick={() => addAssignment(selectedLecture)}
-                >
-                    Submit Course
-                </Button>
             </div>
+            <Button
+                variant="contained"
+                color="success"
+                onClick={() => addCourse()}
+            >
+                Submit Course
+            </Button>
         </Box>
     );
 }

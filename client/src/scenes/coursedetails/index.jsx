@@ -30,7 +30,7 @@ export default function InteractiveList() {
 
 
     const fetchLectures = async () => {
-        await axios.get(`http://localhost:5000/client/lectures?id=${courseId}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/lectures?id=${courseId}`)
             .then((response) => {
                 setLecData(response.data)
                 console.log(response.data[0])
@@ -39,7 +39,7 @@ export default function InteractiveList() {
             })
     }
     const handleDelete = async (lectureId) => {
-        await axios.post(`http://localhost:5000/client/lecture/delete?id=${lectureId}`, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/delete?id=${lectureId}`, {
             lectureId: lectureId,
             courseId: courseId
 

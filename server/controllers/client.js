@@ -266,6 +266,21 @@ export const unenrollStudent = async (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }))
 }
 
+// post request to add a course
+export const addCourse = async (req, res) => {
+  const { courseName, courseDescription, instructor, category } = req.body;
+  const newCourse = new Course({
+    courseName,
+    courseDescription,
+    instructor: instructorId,
+    category
+  });
+  newCourse.save()
+    .then((course) => res.status(200).json({ message: "course added successfully" }))
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+
 
 
 

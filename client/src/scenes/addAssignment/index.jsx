@@ -24,7 +24,7 @@ export default function MultilineTextFields() {
     const fetchCourses = async () => {
         await axios({
             method: "get",
-            url: `http://localhost:5000/client/courses`,
+            url: `${process.env.REACT_APP_API_URL}/client/courses`,
         }).then((res) => {
             console.log(res);
             setCourseData(res.data);
@@ -32,7 +32,7 @@ export default function MultilineTextFields() {
         });
     };
     const fetchLectures = async () => {
-        await axios.get(`http://localhost:5000/client/lectures?id=${selectedCourse}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/lectures?id=${selectedCourse}`)
             .then((response) => {
                 setLecData(response.data)
                 console.log(response.data)
@@ -46,7 +46,7 @@ export default function MultilineTextFields() {
     }
     const addAssignment = async (lectureId) => {
         const options = [option1, option2, option3, option4];
-        await axios.post(`http://localhost:5000/client/assignments/add`, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/assignments/add`, {
             lectureId: lectureId,
             question: question,
             type: "multiple-choice",

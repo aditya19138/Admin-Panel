@@ -29,7 +29,7 @@ export default function InteractiveList() {
 
 
     const fetchUsers = async () => {
-        await axios.get(`http://localhost:5000/client/users`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/users`)
             .then((response) => {
                 setUsersData(response.data)
                 console.log(response.data)
@@ -38,7 +38,7 @@ export default function InteractiveList() {
             })
     }
     const handleDelete = async (userId) => {
-        await axios.post(`http://localhost:5000/client/user/delete?id=${userId}`, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/user/delete?id=${userId}`, {
             userId: userId
         })
             .then((response) => {

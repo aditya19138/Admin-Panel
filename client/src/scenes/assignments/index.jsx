@@ -29,7 +29,7 @@ export default function Assignments() {
 
 
     const fetchAssignments = async () => {
-        await axios.get(`http://localhost:5000/client/assignments`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/assignments`)
             .then((response) => {
                 setAsgnData(response.data)
                 console.log(response.data)
@@ -39,7 +39,7 @@ export default function Assignments() {
     };
 
     const handleDelete = async (asgnId, lecId) => {
-        // await axios.post(`http://localhost:5000/client/assignment/delete`, {
+        // await axios.post(`${process.env.REACT_APP_API_URL}/client/assignment/delete`, {
         //     asgnId: asgnId,
         //     lectureId: lecId
 

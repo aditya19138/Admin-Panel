@@ -28,7 +28,7 @@ export default function InteractiveList() {
 
 
     const fetchEnrollments = async () => {
-        await axios.get(`http://localhost:5000/client/enrollments?id=${courseId}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/enrollments?id=${courseId}`)
             .then((response) => {
                 setEnrollData(response.data)
                 console.log(response.data)
@@ -37,7 +37,7 @@ export default function InteractiveList() {
             })
     }
     const deleteEnrollments = async (userId) => {
-        await axios.post(`http://localhost:5000/client/unenroll?id=${courseId}`, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/unenroll?id=${courseId}`, {
             userId: userId
         })
             .then((response) => {

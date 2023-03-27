@@ -24,7 +24,7 @@ const Lectures = () => {
     const [courses, setCourses] = useState([]);
 
     const fetchLecture = async () => {
-        await axios.get(`http://localhost:5000/client/lecture?id=${LecId}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/lecture?id=${LecId}`)
             .then((response) => {
                 setTitle(response.data[0].title)
                 setCourseId(response.data[0].course)
@@ -41,7 +41,7 @@ const Lectures = () => {
         if (editorRef.current) {
             console.log(title)
             // axios posst request to serve
-            axios.patch('http://localhost:5000/client/lecture/update', {
+            axios.patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
                 title: title,
                 content: editorRef.current.getContent(),
                 lectureId: LecId
@@ -60,7 +60,7 @@ const Lectures = () => {
         if (editorRef.current) {
             console.log(title)
             // axios posst request to serve
-            axios.post('http://localhost:5000/client/lecture/add', {
+            axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
                 no: 1,
                 title: title,
                 content: editorRef.current.getContent(),
@@ -77,7 +77,7 @@ const Lectures = () => {
     };
 
     const fetchCourses = async () => {
-        await axios.get('http://localhost:5000/client/courses')
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/courses`)
             .then((response) => {
                 setCourses(response.data)
                 console.log(response.data)

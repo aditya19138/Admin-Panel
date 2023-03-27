@@ -18,7 +18,8 @@ import {
   viewEnrollments,
   getCategories,
   getInstructors,
-  unenrollStudent
+  unenrollStudent,
+  addCourse
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -35,6 +36,7 @@ router.get("/enrollments", viewEnrollments);
 router.post("/unenroll", unenrollStudent)
 router.get("/categories", getCategories);
 router.get("/instructors", getInstructors);
+router.post("/courses/add", addCourse)
 router.get("/users", getUsers);
 router.post("/user/delete", deleteUser);
 router.get("/assignments", getAssignments);

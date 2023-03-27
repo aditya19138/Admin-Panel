@@ -25,7 +25,7 @@ export default function Login(props) {
 
         await axios({
             method: "post",
-            url: "http://localhost:5000/admin/login",
+            url: `${process.env.REACT_APP_API_URL}/admin/login`,
             data: userData,
         }).then((response) => {
             console.log(response.data);
