@@ -272,7 +272,7 @@ export const addCourse = async (req, res) => {
   const newCourse = new Course({
     courseName,
     courseDescription,
-    instructor: instructorId,
+    instructor,
     category
   });
   newCourse.save()
