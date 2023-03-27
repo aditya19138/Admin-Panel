@@ -17,6 +17,7 @@ import Login from "scenes/login";
 import Admin from "scenes/admin";
 import RequireAuth from "./components/RequireAuth";
 import AddCourse from "scenes/addCourse";
+import AddUser from "scenes/addUser";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/courses/add" element={<AddCourse />} />
                 <Route path="/enrollments" element={<Enrollments />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="/users/add" element={<AddUser />} />
                 <Route path="/coursedetails" element={<CourseDetails />} />
                 <Route path="/assignments" element={<Assignments />} />
                 <Route path="/assignments/add" element={<AddAssignment />} />

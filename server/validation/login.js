@@ -1,6 +1,5 @@
 import Validator from "validator";
 import isEmpty from "is-empty";
-import e from "express";
 
 export const validateLoginInput = (data) => {
     let errors = {};

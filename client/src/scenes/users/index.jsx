@@ -14,6 +14,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -56,6 +57,13 @@ export default function InteractiveList() {
     // console.log(lecData)
     return (
         <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+            <Button
+                    variant="contained"
+                    component={Link}
+                    to={"/users/add"}
+                >
+                    Add User
+                </Button>
             <Demo>
                 <List >
                     {usersData?.map((item) => (

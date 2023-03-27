@@ -21,8 +21,7 @@ export const login = async (req, res) => {
 
   // Check Validation
   if (!isValid) {
-    errors.message = "Invalid Email ID / password"
-    return res.status(200).json(errors);
+    return res.status(200).json({ message: "Invalid Email ID / password" });
   }
 
   const email = req.body.email;

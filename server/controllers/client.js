@@ -7,6 +7,9 @@ import Transaction from "../models/Transaction.js";
 import Assignment from "../models/Assignment.js";
 import getCountryIso3 from "country-iso-2-to-3";
 import Category from "../models/Category.js";
+import validateRegisterInput from "../validation/register.js";
+import bcrypt from "bcryptjs";
+
 
 export const getProducts = async (req, res) => {
   try {
@@ -178,6 +181,41 @@ export const getUsers = async (req, res) => {
     res.status(200).json(users)
   })
 }
+// post request to add a user
+export const addUser = async (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(200).json({ message: "Invalid Email ID / password" });
+  }
+
+  const { first_name, last_name, email, password, role } = req.body;
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      return res.status(200).json({ message: "Email already exists" });
+    } else {
+      const newUser = new User({
+        first_name,
+        last_name,
+        email,
+        password,
+        role
+      });
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then((user) => res.status(200).json({ message: "user added successfully" }))
+            .catch(err => console.log(err));
+        });
+      });
+    }
+  });
+}
 
 // post request to delete a user
 export const deleteUser = async (req, res) => {
@@ -279,6 +317,10 @@ export const addCourse = async (req, res) => {
     .then((course) => res.status(200).json({ message: "course added successfully" }))
     .catch((err) => res.status(500).json({ message: err.message }))
 }
+
+
+
+
 
 
 

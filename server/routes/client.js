@@ -19,7 +19,8 @@ import {
   getCategories,
   getInstructors,
   unenrollStudent,
-  addCourse
+  addCourse,
+  addUser
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -38,6 +39,7 @@ router.get("/categories", getCategories);
 router.get("/instructors", getInstructors);
 router.post("/courses/add", addCourse)
 router.get("/users", getUsers);
+router.post("/users/add", addUser);
 router.post("/user/delete", deleteUser);
 router.get("/assignments", getAssignments);
 router.post("/assignments/add", addAssignment);
