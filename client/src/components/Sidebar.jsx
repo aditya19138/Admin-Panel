@@ -37,7 +37,7 @@ import { useCookies } from 'react-cookie';
 
 const navItems = [
   {
-    text: "Add/Update Lecture",
+    text: "Lecture",
     icon: <ShoppingCartOutlined />,
   },
   {
