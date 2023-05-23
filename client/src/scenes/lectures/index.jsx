@@ -68,6 +68,7 @@ const Lectures = () => {
             })
                 .then(function (response) {
                     console.log(response);
+                    alert("Lecture Added Successfully");
                 })
                 .catch(function (error) {
                     console.log(error);

@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -71,9 +72,11 @@ export default function InteractiveList() {
                             to={`/lecture?lecId=${item._id}`}
                             // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
                             secondaryAction={
-                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
-                                    <DeleteIcon />
-                                </IconButton>
+                                <Tooltip title="Delete" arrow>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
                             }
                         >
 
@@ -85,15 +88,16 @@ export default function InteractiveList() {
                             <ListItemText
                                 primary={item.title}
                             />
-
-                            <Button
-                                component={Link}
-                                to={`/assignments?lectureId=${item._id}`}
-                            >
-                                <Avatar>
-                                    <AssignmentIcon />
-                                </Avatar>
-                            </Button>
+                            <Tooltip title="View Asignments" arrow>
+                                <Button
+                                    component={Link}
+                                    to={`/assignments?lectureId=${item._id}`}
+                                >
+                                    <Avatar>
+                                        <AssignmentIcon />
+                                    </Avatar>
+                                </Button>
+                            </Tooltip>
 
                         </ListItem>)
                     )}
