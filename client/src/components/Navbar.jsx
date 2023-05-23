@@ -47,17 +47,17 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />
           </IconButton>
-          <FlexBetween
+          {/* <FlexBetween
             backgroundColor={theme.palette.background.alt}
             borderRadius="9px"
             gap="3rem"
             p="0.1rem 1.5rem"
-          >
-            <InputBase placeholder="Search..." />
-            <IconButton>
+          > */}
+          {/* <InputBase placeholder="Search..." /> */}
+          {/* <IconButton>
               <Search />
-            </IconButton>
-          </FlexBetween>
+            </IconButton> */}
+          {/* </FlexBetween> */}
         </FlexBetween>
 
         {/* RIGHT SIDE */}
@@ -68,9 +68,6 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             ) : (
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
-          </IconButton>
-          <IconButton>
-            <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
 
           <FlexBetween>
@@ -84,7 +81,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 gap: "1rem",
               }}
             >
-              <Box
+              {/* <Box
                 component="img"
                 alt="profile"
                 src={profileImage}
@@ -92,7 +89,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 width="32px"
                 borderRadius="50%"
                 sx={{ objectFit: "cover" }}
-              />
+              /> */}
               <Box textAlign="left">
                 <Typography
                   fontWeight="bold"
@@ -123,7 +120,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
           </FlexBetween>
         </FlexBetween>
       </Toolbar>
-    </AppBar>
+    </AppBar >
   );
 };
 

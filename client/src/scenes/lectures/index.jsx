@@ -1,9 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
     Box,
     TextField
 } from "@mui/material";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import axios from "axios";
 import { Editor } from '@tinymce/tinymce-react';
 
@@ -15,9 +20,11 @@ const Lectures = () => {
     let [searchParams, setSearchParams] = useSearchParams();
     const LecId = searchParams.get("lecId");
     console.log("LecId=" + LecId);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [courses, setCourses] = useState([]);
 
     const fetchLecture = async () => {
-        await axios.get(`http://localhost:5000/client/lecture?id=${LecId}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/lecture?id=${LecId}`)
             .then((response) => {
                 setTitle(response.data[0].title)
                 setCourseId(response.data[0].course)
@@ -34,13 +41,13 @@ const Lectures = () => {
         if (editorRef.current) {
             console.log(title)
             // axios posst request to serve
-            axios.patch('http://localhost:5000/client/lecture/update', {
+            axios.patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
                 title: title,
                 content: editorRef.current.getContent(),
                 lectureId: LecId
             })
                 .then(function (response) {
-                    console.log(response);
+                    console.log(alert("Lecture Updated Successfully"));
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -53,14 +60,15 @@ const Lectures = () => {
         if (editorRef.current) {
             console.log(title)
             // axios posst request to serve
-            axios.post('http://localhost:5000/client/lecture/add', {
+            axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
                 no: 1,
                 title: title,
                 content: editorRef.current.getContent(),
-                courseId: courseId
+                courseId: selectedCourse
             })
                 .then(function (response) {
                     console.log(response);
+                    alert("Lecture Added Successfully");
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -68,10 +76,40 @@ const Lectures = () => {
         }
 
     };
+
+    const fetchCourses = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/courses`)
+            .then((response) => {
+                setCourses(response.data)
+                console.log(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+    useEffect(() => {
+        fetchCourses();
+    }, []);
+
     return (
         <>
             <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
-            <TextField id="outlined-basic" label={courseId ? courseId : "Enter CourseId"} variant="outlined" onChange={(event) => setCourseId(event.target.value)} />
+            <FormControl sx={{ m: 1, minWidth: 320 }}>
+                <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
+                <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={selectedCourse}
+                    label="Select a Course"
+                    onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
+                >
+                    {courses.map((course) => (
+                        <MenuItem value={course._id}>{course.courseName}</MenuItem>
+                    ))}
+                    {/* <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem> */}
+                </Select>
+            </FormControl>
             <h2>Content</h2>
             <Editor apiKey='18njo3cex5ijqgdwlkqewqxzo8xxvuiln9hwtasdb5muxnth'
                 onInit={(evt, editor) => editorRef.current = editor}

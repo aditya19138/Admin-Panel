@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import CourseCard from "../../components/coursecard";
 import axios from "axios";
 import CoursePhoto from "../../assets/CoursePhoto.png";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+
 
 export default function Coursepage() {
     const [courseData, setCourseData] = useState([]);
     const fetchCourses = async () => {
         await axios({
             method: "get",
-            url: `http://localhost:5000/client/courses`,
+            url: `${process.env.REACT_APP_API_URL}/client/courses`,
         }).then((res) => {
             console.log(res);
             setCourseData(res.data);
@@ -32,6 +35,13 @@ export default function Coursepage() {
                     such as blockchain technology, cryptocurrencies, tokens, wallets, NFTs
                     apart from broaching present and future applications.
                 </p>
+                <Button
+                    variant="contained"
+                    component={Link}
+                    to={"/courses/add"}
+                >
+                    Add Course
+                </Button>
             </div>
             <div className="grid md:grid-cols-3 md:p-5">
                 {courseData?.map((course) => {
@@ -45,6 +55,7 @@ export default function Coursepage() {
                             link={course.link}
                             lectures={course.lectures}
                         />
+
                     );
                 }, [])}
             </div>

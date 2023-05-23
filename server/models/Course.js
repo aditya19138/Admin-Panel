@@ -12,14 +12,14 @@ const CourseSchema = new Schema(
             required: true
         },
         instructor: { type: Schema.Types.ObjectId, ref: "User" },
-        category: { type: Schema.Types.ObjectId, ref: "Category" },
+        category: { type: Schema.Types.ObjectId, ref: "category" },
         lectures: [{
             type: Schema.Types.ObjectId,
             ref: "lectures"
         }],
         enrolledStudents: [{
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "user"
         }],
         completedLectures: {
             type: Number,
