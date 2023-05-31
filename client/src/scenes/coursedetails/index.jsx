@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
@@ -68,15 +69,40 @@ export default function InteractiveList() {
                         // create a list of lectures with link to lecture details
                         <ListItem
                             key={item._id}
-                            component={Link}
-                            to={`/lecture?lecId=${item._id}`}
+                            // to={`/lecture?lecId=${item._id}`}
                             // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
                             secondaryAction={
-                                <Tooltip title="Delete" arrow>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                <div>
+                                    <Tooltip title="Update Lecture" arrow>
+                                        <Button
+                                            component={Link}
+                                            to={`/lecture?lecId=${item._id}`}
+                                        >
+                                            <Avatar>
+                                                <SettingsIcon />
+                                            </Avatar>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="View Asignments" arrow>
+                                        <Button
+                                            component={Link}
+                                            to={`/assignments?lectureId=${item._id}`}
+                                        >
+                                            <Avatar>
+                                                <AssignmentIcon />
+                                            </Avatar>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="Delete" arrow>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+
+
                             }
                         >
 
@@ -88,7 +114,7 @@ export default function InteractiveList() {
                             <ListItemText
                                 primary={item.title}
                             />
-                            <Tooltip title="View Asignments" arrow>
+                            {/* <Tooltip title="View Asignments" arrow>
                                 <Button
                                     component={Link}
                                     to={`/assignments?lectureId=${item._id}`}
@@ -97,7 +123,7 @@ export default function InteractiveList() {
                                         <AssignmentIcon />
                                     </Avatar>
                                 </Button>
-                            </Tooltip>
+                            </Tooltip> */}
 
                         </ListItem>)
                     )}
