@@ -15,7 +15,7 @@ import { Editor } from '@tinymce/tinymce-react';
 const Lectures = () => {
     const [title, setTitle] = useState(null);
     const [courseId, setCourseId] = useState(null);
-    const [content, setContent] = useState(null);
+    const [contentList, setContentList] = useState([{ paragraphs: [""], subHeading: "", images: [] }, { paragraphs: [""], subHeading: "", images: [] }]);
     const editorRef = useRef(null);
     let [searchParams, setSearchParams] = useSearchParams();
     const LecId = searchParams.get("lecId");
@@ -26,54 +26,50 @@ const Lectures = () => {
     const fetchLecture = async () => {
         await axios.get(`${process.env.REACT_APP_API_URL}/client/lecture?id=${LecId}`)
             .then((response) => {
+
                 setTitle(response.data[0].title)
-                setCourseId(response.data[0].course)
-                setContent(response.data[0].content)
+                setSelectedCourse(response.data[0].course)
+                setContentList(response.data[0].content)
                 console.log(response.data)
             }).catch((error) => {
                 console.log(error)
             })
     }
-    if (LecId) {
+    useEffect(() => {
         fetchLecture();
-    }
+    }, [LecId]);
+
     const updateLecture = () => {
-        if (editorRef.current) {
-            console.log(title)
-            // axios posst request to serve
-            axios.patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
-                title: title,
-                content: editorRef.current.getContent(),
-                lectureId: LecId
+        axios.patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
+            title: title,
+            content: contentList,
+            lectureId: LecId
+        })
+            .then(function (response) {
+                console.log(alert("Lecture Updated Successfully"));
             })
-                .then(function (response) {
-                    console.log(alert("Lecture Updated Successfully"));
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+            .catch(function (error) {
+                console.log(error);
+            });
+
 
     };
 
     const addNewLec = () => {
-        if (editorRef.current) {
-            console.log(title)
-            // axios posst request to serve
-            axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
-                no: 1,
-                title: title,
-                content: editorRef.current.getContent(),
-                courseId: selectedCourse
+        axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
+            no: 1,
+            title: title,
+            content: contentList,
+            courseId: selectedCourse
+        })
+            .then(function (response) {
+                console.log(response);
+                alert("Lecture Added Successfully");
             })
-                .then(function (response) {
-                    console.log(response);
-                    alert("Lecture Added Successfully");
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+            .catch(function (error) {
+                console.log(error);
+            });
+
 
     };
 
@@ -90,6 +86,29 @@ const Lectures = () => {
         fetchCourses();
     }, []);
 
+    // useEffect(() => {
+    //     console.log(contentList)
+    // }, [contentList]);
+
+    const handleParagraphAdd = (index) => {
+        contentList[index].paragraphs.push("");
+        setContentList([...contentList])
+    }
+    const handleParagraphRemove = (indexP, indexSubh) => {
+        console.log(indexP)
+        contentList[indexSubh].paragraphs.shift(indexP, 1);
+        setContentList([...contentList]);
+
+    }
+
+    const handleSubHeadingAdd = () => {
+        setContentList([...contentList, { paragraphs: [""], subHeading: "", images: [] }])
+    }
+    const handleSubHeadingRemove = () => {
+        contentList.pop()
+        setContentList([...contentList])
+    }
+
     return (
         <>
             <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
@@ -99,42 +118,81 @@ const Lectures = () => {
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
                     value={selectedCourse}
-                    label="Select a Course"
+                    placeholder="Select a Course"
                     onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
                 >
                     {courses.map((course) => (
                         <MenuItem value={course._id}>{course.courseName}</MenuItem>
                     ))}
-                    {/* <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
             </FormControl>
             <h2>Content</h2>
-            <Editor apiKey='18njo3cex5ijqgdwlkqewqxzo8xxvuiln9hwtasdb5muxnth'
-                onInit={(evt, editor) => editorRef.current = editor}
-                initialValue={content ? content : "<p>Type here !!</p>"}
-                init={{
-                    selector: 'textarea#local-upload',
-                    plugins: 'image code',
-                    toolbar: 'undo redo | image code| formatselect | ' +
-                        'bold italic backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
+            {contentList.map((item, indexSubH) => (
+                <div style={{ margin: '20px' }}>
 
-                    /* without images_upload_url set, Upload tab won't show up*/
-                    images_upload_url: 'postAcceptor.php',
+                    <div>
+                        <TextField
+                            required
+                            id="outlined-required"
+                            style={{ width: "50%" }}
+                            placeholder="Enter Sub Heading"
+                            defaultValue={item.subHeading}
+                            onChange={(event) => {
+                                item.subHeading = event.target.value;
+                                setContentList([...contentList])
+                            }}
+                        />
+                    </div>
+                    {item.paragraphs.map((paragraph, indexP) => (
+                        <div style={{ marginTop: '5px' }}>
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                style={{ width: "70%" }}
+                                multiline
+                                rows={4}
+                                placeholder="Write a Paragraph"
+                                defaultValue={paragraph}
+                                onChange={(event) => {
+                                    item.paragraphs[indexP] = event.target.value;
+                                    setContentList([...contentList])
+                                }}
+                            />
+                            <button
+                                style={{ margin: '2px', display: 'block' }}
+                                onClick={() => handleParagraphRemove(indexP, indexSubH)}
+                            >
+                                Remove Paragraph
+                            </button>
+                            {item.paragraphs.length - 1 === indexP &&
+                                <button
+                                    style={{ margin: '2px', display: 'block' }}
+                                    onClick={() => handleParagraphAdd(indexSubH)}
+                                >
+                                    Add Paragraph
+                                </button>}
+                        </div>
+                    ))}
 
-                    /* we override default upload handler to simulate successful upload*/
-                    images_upload_handler: function (blobInfo, success, failure) {
-                        setTimeout(function () {
-                            /* no matter what you upload, we will turn it into TinyMCE logo :)*/
-                            success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
-                        }, 2000);
-                    },
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-            />
+                    {contentList.length - 1 === indexSubH &&
+                        <button
+                            style={{ marginTop: '15px', display: 'block' }}
+                            onClick={handleSubHeadingAdd}
+                        >
+                            Add Subheading
+                        </button>}
+                    <button
+                        style={{ "font-style": "italic" }}
+                        onClick={handleSubHeadingRemove}
+                    >
+                        Remove Subheading
+                    </button>
+
+
+
+                </div >
+            ))}
+
+
             <button onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</button>
         </>
     );
