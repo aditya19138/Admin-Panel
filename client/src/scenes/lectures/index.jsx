@@ -6,13 +6,13 @@ import {
 } from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
-import { Editor } from '@tinymce/tinymce-react';
 import TextFields from "./TextFields";
 import './index.css'
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 
 
@@ -37,7 +37,7 @@ const Lectures = () => {
         setParaCount((paraCount) => paraCount + 1);
     }
 
-    
+
     const handleDecrement = () => {
         setParaCount((paraCount) => paraCount - 1);
         arrJSON.pop();
@@ -49,7 +49,7 @@ const Lectures = () => {
             updatedSubParaArr.push(
                 <div key={i}>
                     <TextFields memberIndex={i} arr={arrJSON} />
-                </div>  
+                </div>
             );
         }
         setSubParaArr(updatedSubParaArr);
@@ -123,7 +123,8 @@ const Lectures = () => {
     useEffect(() => {
         fetchCourses();
     }, []);
-
+    <Button variant="contained" onClick={handleIncrement}>Add SubPara</Button>
+    {paraCount !== 0 && <Button variant="contained" onClick={handleDecrement}>Delete SubPara</Button>}
     return (
         <>
             <div className="index">
@@ -145,39 +146,14 @@ const Lectures = () => {
             </div>
             <div className="textField">
                 {subParaArr}
-                {console.log(paraCount)}
-                <button onClick={handleIncrement}>Add SubPara</button>
-                {paraCount !== 0 && <button onClick={handleDecrement}>Delete SubPara</button>}
+                <div className="buttonArea">
+                    <Button variant="contained" onClick={handleIncrement}>Add SubPara</Button>
+                    {paraCount !== 0 && <Button variant="contained" onClick={handleDecrement} className="button">Delete SubPara</Button>}
+                </div>
             </div>
-            <button onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</button>
+            <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</Button>
         </>
     );
 };
 
 export default Lectures;
-
-
-// {/* <Editor apiKey='18njo3cex5ijqgdwlkqewqxzo8xxvuiln9hwtasdb5muxnth'
-// onInit={(evt, editor) => editorRef.current = editor}
-// initialValue={content ? content : "<p>Type here !!</p>"}
-// init={{
-//     selector: 'textarea#local-upload',
-//     plugins: 'image code',
-//     toolbar: 'undo redo | image code| formatselect | ' +
-//         'bold italic backcolor | alignleft aligncenter ' +
-//         'alignright alignjustify | bullist numlist outdent indent | ' +
-//         'removeformat | help',
-
-//     /* without images_upload_url set, Upload tab won't show up*/
-//     images_upload_url: 'postAcceptor.php',
-
-//     /* we override default upload handler to simulate successful upload*/
-//     images_upload_handler: function (blobInfo, success, failure) {
-//         setTimeout(function () {
-//             /* no matter what you upload, we will turn it into TinyMCE logo :)*/
-//             success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
-//         }, 2000);
-//     },
-//     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-// }}
-// /> */}
