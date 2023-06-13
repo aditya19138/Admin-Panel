@@ -6,11 +6,12 @@ import {
 } from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
-import { Editor } from '@tinymce/tinymce-react';
+import './index.css'
 
 const Lectures = () => {
     const [title, setTitle] = useState(null);
@@ -185,20 +186,20 @@ const Lectures = () => {
                         }}
                     />
 
-                    <button
+                    <Button variant="contained"
                         style={{ "font-style": "italic", display: 'block' }}
                         onClick={handleSubHeadingRemove}
                     >
                         Remove Subheading
-                    </button>
+                    </Button>
 
                     {contentList.length - 1 === indexSubH &&
-                        <button
+                        <Button variant="contained"
                             style={{ marginTop: '15px', display: 'block' }}
                             onClick={handleSubHeadingAdd}
                         >
                             Add Subheading
-                        </button>}
+                        </Button>}
 
 
 
@@ -207,7 +208,7 @@ const Lectures = () => {
             ))}
 
 
-            <button onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</button>
+            <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</Button>
         </>
     );
 };

@@ -1,0 +1,26 @@
+/* .index{
+    margin: 2rem;
+    background-color: black;
+} */
+
+.textField {
+    margin: 2rem;
+}
+
+.textFieldBox {
+    margin-top: 1rem;
+}
+
+.button {
+    margin: 0.5rem !important;
+}
+
+.index {
+    display: flex;
+    place-items: center;
+    margin-left: 2rem;
+}
+
+.buttonArea {
+    margin-top: 0.5rem;
+}
