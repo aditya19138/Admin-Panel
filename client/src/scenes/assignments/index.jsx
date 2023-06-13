@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/tooltip';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -39,17 +40,17 @@ export default function Assignments() {
     };
 
     const handleDelete = async (asgnId, lecId) => {
-        // await axios.post(`${process.env.REACT_APP_API_URL}/client/assignment/delete`, {
-        //     asgnId: asgnId,
-        //     lectureId: lecId
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/assignment/delete`, {
+            asgnId: asgnId,
+            lectureId: lecId
 
-        // })
-        //     .then((response) => {
-        //         console.log(response.data)
-        //         setAsgnData(asgnData.filter((asgn) => asgn._id !== asgnId));
-        //     }).catch((error) => {
-        //         console.log(error)
-        //     })
+        })
+            .then((response) => {
+                console.log(response.data)
+                setAsgnData(asgnData.filter((asgn) => asgn._id !== asgnId));
+            }).catch((error) => {
+                console.log(error)
+            })
     };
 
 
@@ -80,15 +81,12 @@ export default function Assignments() {
 
                         <ListItem
                             key={item._id}
-                            // component={Link}
-                            // to={`/lecture?lecId=${item._id}`}
-                            // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
                             secondaryAction={
-                                <IconButton edge="end" aria-label="delete"
-                                    onClick={handleDelete(item._id, item.lectureId)}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
+                                <Tooltip title="Delete" arrow>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
                             }
                         >
                             <ListItemAvatar>

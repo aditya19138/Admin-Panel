@@ -3,24 +3,27 @@
     background-color: black;
 } */
 
-.textField{
+.textField {
     margin: 2rem;
 }
 
-.textFieldBox{
+.textFieldBox {
     margin-top: 1rem;
 }
 
-.button{
+.button {
     margin: 0.5rem !important;
 }
 
-.index{
-    display: flex;
-    place-items: center;
+.index {
     margin-left: 2rem;
 }
 
-.buttonArea{
+.buttonArea {
     margin-top: 0.5rem;
+}
+
+.fields{
+    display: flex;
+    place-items: center;
 }
