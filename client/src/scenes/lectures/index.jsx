@@ -15,7 +15,7 @@ import { Editor } from '@tinymce/tinymce-react';
 const Lectures = () => {
     const [title, setTitle] = useState(null);
     const [courseId, setCourseId] = useState(null);
-    const [contentList, setContentList] = useState([{ paragraphs: [""], subHeading: "", images: [] }, { paragraphs: [""], subHeading: "", images: [] }]);
+    const [contentList, setContentList] = useState([{ paragraphs: [""], subHeading: "", images: [] }]);
     const editorRef = useRef(null);
     let [searchParams, setSearchParams] = useSearchParams();
     const LecId = searchParams.get("lecId");
@@ -86,9 +86,9 @@ const Lectures = () => {
         fetchCourses();
     }, []);
 
-    // useEffect(() => {
-    //     console.log(contentList)
-    // }, [contentList]);
+    useEffect(() => {
+        console.log(contentList)
+    }, [contentList]);
 
     const handleParagraphAdd = (index) => {
         contentList[index].paragraphs.push("");
@@ -108,6 +108,7 @@ const Lectures = () => {
         contentList.pop()
         setContentList([...contentList])
     }
+
 
     return (
         <>
@@ -129,21 +130,20 @@ const Lectures = () => {
             <h2>Content</h2>
             {contentList.map((item, indexSubH) => (
                 <div style={{ margin: '20px' }}>
-
                     <div>
                         <TextField
                             required
                             id="outlined-required"
                             style={{ width: "50%" }}
                             placeholder="Enter Sub Heading"
-                            defaultValue={item.subHeading}
+                            value={item.subHeading}
                             onChange={(event) => {
                                 item.subHeading = event.target.value;
                                 setContentList([...contentList])
                             }}
                         />
                     </div>
-                    {item.paragraphs.map((paragraph, indexP) => (
+                    {/* {item.paragraphs.map((paragraph, indexP) => (
                         <div style={{ marginTop: '5px' }}>
                             <TextField
                                 id="outlined-multiline-flexible"
@@ -171,7 +171,26 @@ const Lectures = () => {
                                     Add Paragraph
                                 </button>}
                         </div>
-                    ))}
+                    ))} */}
+                    <TextField
+                        id="outlined-multiline-flexible"
+                        style={{ width: "100%", marginTop: '5px' }}
+                        multiline
+                        rows={10}
+                        placeholder="Write a Paragraph"
+                        value={item.paragraphs.join('\n')}
+                        onChange={(event) => {
+                            item.paragraphs = event.target.value.split('\n');
+                            setContentList([...contentList])
+                        }}
+                    />
+
+                    <button
+                        style={{ "font-style": "italic", display: 'block' }}
+                        onClick={handleSubHeadingRemove}
+                    >
+                        Remove Subheading
+                    </button>
 
                     {contentList.length - 1 === indexSubH &&
                         <button
@@ -180,12 +199,7 @@ const Lectures = () => {
                         >
                             Add Subheading
                         </button>}
-                    <button
-                        style={{ "font-style": "italic" }}
-                        onClick={handleSubHeadingRemove}
-                    >
-                        Remove Subheading
-                    </button>
+
 
 
 
