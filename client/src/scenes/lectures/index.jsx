@@ -37,6 +37,7 @@ const Lectures = () => {
             })
     }
     useEffect(() => {
+        if(LecId)
         fetchLecture();
     }, [LecId]);
 

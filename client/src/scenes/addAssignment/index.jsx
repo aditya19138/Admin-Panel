@@ -62,6 +62,7 @@ export default function MultilineTextFields() {
     }
     useEffect(() => {
         console.log(selectedCourse);
+        if(selectedCourse)
         fetchLectures();
     }, [selectedCourse]);
 
