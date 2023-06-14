@@ -113,7 +113,8 @@ const Lectures = () => {
 
 
     return (
-        <>
+        <div style={{margin:'2rem'}}>
+            <div className="indexLec">
             <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
             <FormControl sx={{ m: 1, minWidth: 320 }}>
                 <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
@@ -129,9 +130,10 @@ const Lectures = () => {
                     ))}
                 </Select>
             </FormControl>
+            </div>
             <h2>Content</h2>
             {contentList.map((item, indexSubH) => (
-                <div style={{ margin: '20px' }}>
+                <div style={{marginBottom:'2rem'}}>
                     <div>
                         <TextField
                             required
@@ -188,8 +190,9 @@ const Lectures = () => {
                     />
 
                     <Button variant="contained"
-                        style={{ "font-style": "italic", display: 'block' }}
+                        style={{  display: 'block' }}
                         onClick={handleSubHeadingRemove}
+                        className="button"
                     >
                         Remove Subheading
                     </Button>
@@ -198,6 +201,7 @@ const Lectures = () => {
                         <Button variant="contained"
                             style={{ marginTop: '15px', display: 'block' }}
                             onClick={handleSubHeadingAdd}
+                            className="buttonArea"
                         >
                             Add Subheading
                         </Button>}
@@ -210,7 +214,7 @@ const Lectures = () => {
 
 
             <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</Button>
-        </>
+        </div>
     );
 };
 

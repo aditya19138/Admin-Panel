@@ -1,8 +1,9 @@
- .index{
+ .indexCard{
     margin-bottom: 2rem;
     border-color: azure;
     border-radius: 2rem;
     border-style: dashed;
     padding: 2rem;
     width: 75%;
+    margin-left: 2rem;
 }

@@ -1,7 +1,4 @@
-/* .index{
-    margin: 2rem;
-    background-color: black;
-} */
+
 
 .textField {
     margin: 2rem;
@@ -12,13 +9,12 @@
 }
 
 .button {
-    margin: 0.5rem !important;
+    margin-top: 0.2rem !important;
 }
 
-.index {
+.indexLec {
     display: flex;
     place-items: center;
-    margin-left: 2rem;
 }
 
 .buttonArea {

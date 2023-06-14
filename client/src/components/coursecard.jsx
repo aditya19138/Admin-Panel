@@ -31,7 +31,7 @@ export default function CourseCard(props) {
     };
 
     return (
-        <div className=" p-[1px] bg-gradient-to-b from-[#676565] to-[#202020] rounded-md m-4 index">
+        <div className=" p-[1px] bg-gradient-to-b from-[#676565] to-[#202020] rounded-md m-4 indexCard">
             <div className="p-5 bg-[#202020] rounded-md">
                 <div>
                     {/* image  */}
