@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
+import './index.css'
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -56,32 +57,36 @@ export default function InteractiveList() {
 
     // console.log(lecData)
     return (
-        <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Button
+        <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='user'>
+            <div className='userHeading'>
+                <h1>User List</h1>
+                <Button
                     variant="contained"
                     component={Link}
                     to={"/users/add"}
                 >
                     Add User
                 </Button>
-            <Demo>
-                <List >
+            </div>
+            <Demo className='userList'>
+                <List className='userLisst'>
                     {usersData?.map((item) => (
                         // create a list of lectures with link to lecture details
-
-                        <ListItem
-                            key={item._id}
-                            secondaryAction={
-                                <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            }
-                        >
-                            <ListItemText
-                                primary={item.first_name + " " + item.last_name}
-                                secondary={item.email}
-                            />
-                        </ListItem>)
+                        <div className='listItem'>
+                            <ListItem
+                                key={item._id}
+                                secondaryAction={
+                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                }
+                            >
+                                <ListItemText
+                                    primary={item.first_name + " " + item.last_name}
+                                    secondary={item.email}
+                                />
+                            </ListItem>
+                        </div>)
                     )}
                 </List>
             </Demo >

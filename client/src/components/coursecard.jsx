@@ -47,7 +47,7 @@ export default function CourseCard(props) {
                 </div>
                 <div>
                     {/* desc */}
-                    <p className="text-neutral-400 font-InterRegular text-[0.68rem] my-4 mt-2">
+                    <p className="text-neutral-400 font-InterRegular text-[0.68rem] my-4 mt-2 cardDesc">
                         {props.description}
                     </p>
                 </div>
