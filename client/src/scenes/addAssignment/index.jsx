@@ -62,8 +62,8 @@ export default function MultilineTextFields() {
     }
     useEffect(() => {
         console.log(selectedCourse);
-        if(selectedCourse)
-        fetchLectures();
+        if (selectedCourse)
+            fetchLectures();
     }, [selectedCourse]);
 
     useEffect(() => {
@@ -82,12 +82,12 @@ export default function MultilineTextFields() {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '75%' },
+                '& .MuiTextField-root': { m: 2, width: '75%' },
             }}
             noValidate
             autoComplete="off"
         >
-            <div>
+            <div style={{ marginLeft: '2rem' }}>
                 <FormControl sx={{ m: 1, minWidth: 220 }}>
                     <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
                     <Select
@@ -132,7 +132,7 @@ export default function MultilineTextFields() {
                     </Select>
                 </FormControl>
             </div>
-            <div>
+            <div style={{ marginLeft: '1.5rem' }}>
                 <TextField
                     id="outlined-multiline-flexible"
                     label="Question"
@@ -142,7 +142,7 @@ export default function MultilineTextFields() {
                 />
             </div>
             {(quesType === "multi-line") && (
-                <div>
+                <div style={{ marginLeft: '1.5rem' }}>
                     <TextField
                         id="filled-multiline-flexible "
                         style={{ width: '50%' }}
@@ -180,22 +180,25 @@ export default function MultilineTextFields() {
                         onChange={(e) => setOption4(e.target.value)}
                     />
                 </div>)}
-            <TextField
-                id="filled-multiline-flexible "
-                style={{ width: '50%' }}
-                label="Correct Answer"
-                multiline
-                maxRows={4}
-                variant="filled"
-                onChange={(e) => setAnswer(e.target.value)}
-            />
-            <Button
-                variant="contained"
-                color="success"
-                onClick={() => addAssignment(selectedLecture)}
-            >
-                Submit Question
-            </Button>
+            <div style={{display:'flex', flexDirection:'column', marginLeft:"1.5rem"}}>
+                <TextField
+                    id="filled-multiline-flexible "
+                    style={{ width: '50%'}}
+                    label="Correct Answer"
+                    multiline
+                    maxRows={4}
+                    variant="filled"
+                    onChange={(e) => setAnswer(e.target.value)}
+                />
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => addAssignment(selectedLecture)}
+                    style={{width:'15%', marginLeft:'1rem', marginTop:'1rem'}}
+                >
+                    Submit Question
+                </Button>
+            </div>
         </Box>
     );
 }
