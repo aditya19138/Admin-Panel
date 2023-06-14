@@ -17,6 +17,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import './index.css'
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -66,38 +67,43 @@ export default function Assignments() {
     // console.log(asgnData)
     return (
 
-        <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Button
-                variant="contained"
-                component={Link}
-                to={"/assignments/add"}
-            >
-                Add Assignment
-            </Button>
-            <Demo>
-                <List >
+        <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='assigment'>
+            <div className='assigmentHeading'>
+                <h1>Assignment List</h1>
+                <Button
+                    variant="contained"
+                    component={Link}
+                    to={"/assignments/add"}
+                >
+                    Add Assignment
+                </Button>
+            </div>
+            <Demo className='assigmentList'>
+                <List className='assigmentLisst'>
                     {asgnData?.map((item) => (
                         // create a list of lectures with link to lecture details
-
-                        <ListItem
-                            key={item._id}
-                            secondaryAction={
-                                <Tooltip title="Delete" arrow>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            }
-                        >
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <QuestionAnswerIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={item.question}
-                            />
-                        </ListItem>)
+                        <div className='assigmentItem'>
+                            <ListItem
+                                key={item._id}
+                                secondaryAction={
+                                    <Tooltip title="Delete" arrow>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+                            >
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <QuestionAnswerIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={item.question}
+                                />
+                            </ListItem>
+                        </div>
+                    )
                     )}
                 </List>
             </Demo>
