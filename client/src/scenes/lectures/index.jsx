@@ -183,7 +183,7 @@ const Lectures = () => {
                         placeholder="Write a Paragraph"
                         value={item.paragraphs.join('\n')}
                         onChange={(event) => {
-                            item.paragraphs = event.target.value.split('\n\n');
+                            item.paragraphs = event.target.value.split('\n');
                             setContentList([...contentList])
                         }}
                     />
