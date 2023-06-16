@@ -17,6 +17,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import './index.css'
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -61,16 +62,14 @@ export default function InteractiveList() {
 
     console.log(lecData)
     return (
-        <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Demo>
-                <List >
+        <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='module'>
+            <h1 className='moduleHeading'>Modules List</h1>
+            <Demo className='moduleList'>
+                <List className='moduleLisst'>
                     {lecData?.map((item) => (
-
-                        // create a list of lectures with link to lecture details
                         <ListItem
                             key={item._id}
-                            // to={`/lecture?lecId=${item._id}`}
-                            // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
+                            className='moduleItem'
                             secondaryAction={
                                 <div>
                                     <Tooltip title="Update Lecture" arrow>

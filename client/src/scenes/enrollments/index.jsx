@@ -14,6 +14,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import './index.css'
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -54,14 +55,16 @@ export default function InteractiveList() {
 
     // console.log(lecData)
     return (
-        <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Demo>
-                <List >
+        <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='enroll'>
+            <h1>Enrolled List</h1>
+            <Demo className='enrollList'>
+                <List className='enrollLisst'>
                     {enrollData?.map((item) => (
                         // create a list of lectures with link to lecture details
 
                         <ListItem
                             key={item._id}
+                            className='enrollItem'
                             secondaryAction={
                                 <IconButton edge="end" aria-label="delete" onClick={deleteEnrollments} >
                                     <DeleteIcon />

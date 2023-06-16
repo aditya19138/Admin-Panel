@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 
 export default function CourseCard(props) {
     const navigate = useNavigate();
+
     const handleLearn = (e) => {
         e.preventDefault();
         const course_id = e.target.getAttribute("id");
@@ -18,6 +19,7 @@ export default function CourseCard(props) {
         let uri = axios.getUri({ url, params });
         navigate(uri);
     };
+
     const handleEnrollments = (e) => {
         e.preventDefault();
         const course_id = e.target.getAttribute("id");
@@ -57,6 +59,7 @@ export default function CourseCard(props) {
                         <div className="flex gap-4">
                             <Button
                                 variant="contained"
+                                id={props.id}
                                 onClick={handleLearn}
                                 style={{marginRight:'1rem', marginTop:'0.5rem'}}
                             >
@@ -64,6 +67,7 @@ export default function CourseCard(props) {
                             </Button>
                             <Button
                                 variant="contained"
+                                id={props.id}
                                 onClick={handleEnrollments}
                                 style={{marginTop:'0.5rem'}}
                             >
