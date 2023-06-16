@@ -51,6 +51,10 @@ const navItems = [
   {
     text: "Assignments",
     icon: <ShoppingCartOutlined />
+  },
+  {
+    text: "NFTs",
+    icon: <ShoppingCartOutlined />
   }
 ];
 

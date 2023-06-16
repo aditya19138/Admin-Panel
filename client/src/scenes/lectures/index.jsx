@@ -27,7 +27,6 @@ const Lectures = () => {
     const fetchLecture = async () => {
         await axios.get(`${process.env.REACT_APP_API_URL}/client/lecture?id=${LecId}`)
             .then((response) => {
-
                 setTitle(response.data[0].title)
                 setSelectedCourse(response.data[0].course)
                 setContentList(response.data[0].content)
@@ -37,8 +36,8 @@ const Lectures = () => {
             })
     }
     useEffect(() => {
-        if(LecId)
-        fetchLecture();
+        if (LecId)
+            fetchLecture();
     }, [LecId]);
 
     const updateLecture = () => {
@@ -113,27 +112,27 @@ const Lectures = () => {
 
 
     return (
-        <div style={{margin:'2rem'}}>
+        <div style={{ margin: '2rem' }}>
             <div className="indexLec">
-            <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
-            <FormControl sx={{ m: 1, minWidth: 320 }}>
-                <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
-                <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={selectedCourse}
-                    placeholder="Select a Course"
-                    onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
-                >
-                    {courses.map((course) => (
-                        <MenuItem value={course._id}>{course.courseName}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
+                <FormControl sx={{ m: 1, minWidth: 320 }}>
+                    <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={selectedCourse}
+                        placeholder="Select a Course"
+                        onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
+                    >
+                        {courses.map((course) => (
+                            <MenuItem value={course._id}>{course.courseName}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </div>
             <h2>Content</h2>
             {contentList.map((item, indexSubH) => (
-                <div style={{marginBottom:'2rem'}}>
+                <div style={{ marginBottom: '2rem' }}>
                     <div>
                         <TextField
                             required
@@ -190,7 +189,7 @@ const Lectures = () => {
                     />
 
                     <Button variant="contained"
-                        style={{  display: 'block' }}
+                        style={{ display: 'block' }}
                         onClick={handleSubHeadingRemove}
                         className="button"
                     >

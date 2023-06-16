@@ -180,10 +180,10 @@ export default function MultilineTextFields() {
                         onChange={(e) => setOption4(e.target.value)}
                     />
                 </div>)}
-            <div style={{display:'flex', flexDirection:'column', marginLeft:"1.5rem"}}>
+            <div style={{ display: 'flex', flexDirection: 'column', marginLeft: "1.5rem" }}>
                 <TextField
                     id="filled-multiline-flexible "
-                    style={{ width: '50%'}}
+                    style={{ width: '50%' }}
                     label="Correct Answer"
                     multiline
                     maxRows={4}
@@ -194,7 +194,7 @@ export default function MultilineTextFields() {
                     variant="contained"
                     color="success"
                     onClick={() => addAssignment(selectedLecture)}
-                    style={{width:'15%', marginLeft:'1rem', marginTop:'1rem'}}
+                    style={{ width: '15%', marginLeft: '1rem', marginTop: '1rem' }}
                 >
                     Submit Question
                 </Button>

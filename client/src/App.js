@@ -18,6 +18,7 @@ import Admin from "scenes/admin";
 import RequireAuth from "./components/RequireAuth";
 import AddCourse from "scenes/addCourse";
 import AddUser from "scenes/addUser";
+import NFTs from "scenes/nfts";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/coursedetails" element={<CourseDetails />} />
                 <Route path="/assignments" element={<Assignments />} />
                 <Route path="/assignments/add" element={<AddAssignment />} />
+                <Route path="/nfts" element={<NFTs />} />
                 <Route path="/admin" element={<Admin />} />
               </Route>
             </Route>

@@ -17,6 +17,7 @@ import {
   unenrollStudent,
   addCourse,
   addUser
+  , getNFTs
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -38,5 +39,7 @@ router.post("/user/delete", deleteUser);
 router.get("/assignments", getAssignments);
 router.post("/assignments/add", addAssignment);
 router.post("/assignment/delete", deleteAsgn)
+router.get("/nfts", getNFTs);
+
 
 export default router;

@@ -3,7 +3,7 @@ import ProductStat from "../models/ProductStat.js";
 import User from "../models/User.js";
 import Lecture from "../models/Lecture.js";
 import Course from "../models/Course.js";
-import Transaction from "../models/Transaction.js";
+import NFT from "../models/nft.js";
 import Assignment from "../models/Assignment.js";
 import getCountryIso3 from "country-iso-2-to-3";
 import Category from "../models/Category.js";
@@ -16,6 +16,14 @@ export const getCourses = async (req, res) => {
     .find().then((courses) => {
       res.status(200).json(courses)
     })
+}
+// get all nfts
+export const getNFTs = async (req, res) => {
+  NFT.find()
+    .then((nfts) => {
+      res.status(200).json(nfts)
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
 }
 
 // fetch lectures of a particular course
@@ -199,6 +207,13 @@ export const getInstructors = async (req, res) => {
       res.status(200).json(instructors)
     })
     .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+// get request to get all the mintednfts
+export const getMintedNfts = async (req, res) => {
+  MintedNft.find().then((mintednfts) => {
+    res.status(200).json(mintednfts)
+  })
 }
 
 // post request to unenroll a student
