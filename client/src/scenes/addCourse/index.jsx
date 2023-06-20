@@ -14,6 +14,7 @@ export default function MultilineTextFields() {
     const [instructorData, setInstructorData] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedInstructor, setSelectedInstructor] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
 
@@ -46,7 +47,8 @@ export default function MultilineTextFields() {
             courseName: title,
             courseDescription: description,
             category: selectedCategory,
-            instructor: selectedInstructor
+            instructor: selectedInstructor,
+            courseImage: imageURL
         }).then((response) => {
             alert("Course added successfully");
             console.log(response.data)
@@ -101,6 +103,13 @@ export default function MultilineTextFields() {
                         ))}
                     </Select>
                 </FormControl>
+                <TextField
+                    id="filled-basic"
+                    variant='filled'
+                    style={{ width: '30%' }}
+                    label="Image URL"
+                    onChange={(e) => setImageURL(e.target.value)}
+                />
             </div>
             <div>
                 <TextField
