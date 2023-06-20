@@ -55,7 +55,6 @@ export default function Coursepage() {
                             link={course.link}
                             lectures={course.lectures}
                         />
-
                     );
                 }, [])}
             </div>

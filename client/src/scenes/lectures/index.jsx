@@ -1,28 +1,113 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-    Box,
     TextField
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import Slide from '@mui/material/Slide';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
-import './index.css'
+import './index.css';
+import { ToastContainer, toast } from 'react-toastify';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
+function AlertLectureAdded({ alertLecAdded, handleClick }) {
+    return (
+        <div>
+            <Dialog
+                open={alertLecAdded}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => handleClick()}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Lec Added Sucessfully
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleClick()}>Cool</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
+function AlertLectureUpdated({ alertLectureUpdated, handleClick }) {
+    return (
+        <div>
+            <Dialog
+                open={alertLectureUpdated}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => handleClick()}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Lec Updated Sucessfully
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleClick()}>Cool</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
+function AlertLectureErr({ alertLecAddedErr, handleClick }) {
+    return (
+        <div>
+            <Dialog
+                open={alertLecAddedErr}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => handleClick()}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Something went wrong, Please try again
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleClick()}>Cool</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
 
 const Lectures = () => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState(null);
     const [courseId, setCourseId] = useState(null);
     const [contentList, setContentList] = useState([{ paragraphs: [""], subHeading: "", images: [] }]);
     const editorRef = useRef(null);
     let [searchParams, setSearchParams] = useSearchParams();
     const LecId = searchParams.get("lecId");
-    console.log("LecId=" + LecId);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [courses, setCourses] = useState([]);
+    const [alertLecAdded, setAlertLecAdded] = useState()
+    const [alertLecAddedErr, setAlertLecAddedErr] = useState()
+    const [alertLecUpdated, setAlertLecUpdated] = useState()
+
 
     const fetchLecture = async () => {
         await axios.get(`${process.env.REACT_APP_API_URL}/client/lecture?id=${LecId}`)
@@ -47,31 +132,33 @@ const Lectures = () => {
             lectureId: LecId
         })
             .then(function (response) {
-                console.log(alert("Lecture Updated Successfully"));
+                toast.success(`Lecture Updated Successfully`, response, {
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
             .catch(function (error) {
-                console.log(error);
+                setAlertLecAddedErr(true)
             });
-
-
     };
 
     const addNewLec = () => {
-        axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
-            no: 1,
-            title: title,
-            content: contentList,
-            courseId: selectedCourse
-        })
-            .then(function (response) {
-                console.log(response);
-                alert("Lecture Added Successfully");
+        if (selectedCourse) {
+            axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
+                no: 1,
+                title: title,
+                content: contentList,
+                courseId: selectedCourse
             })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
+                .then(function (response) {
+                    setAlertLecAdded(true)
+                })
+                .catch(function (error) {
+                    setAlertLecAddedErr(true)
+                });
+        }
+        else {
+            setAlertLecAddedErr(true)
+        }
     };
 
     const fetchCourses = async () => {
@@ -83,8 +170,11 @@ const Lectures = () => {
                 console.log(error)
             })
     }
+
     useEffect(() => {
         fetchCourses();
+        setAlertLecAdded();
+        setAlertLecAddedErr();
     }, []);
 
     useEffect(() => {
@@ -101,7 +191,6 @@ const Lectures = () => {
         setContentList([...contentList]);
 
     }
-
     const handleSubHeadingAdd = () => {
         setContentList([...contentList, { paragraphs: [""], subHeading: "", images: [] }])
     }
@@ -109,110 +198,99 @@ const Lectures = () => {
         contentList.pop()
         setContentList([...contentList])
     }
+    const handleLecAddedClick = () => {
+        setAlertLecAdded(false);
+        const params = {
+            course_id: selectedCourse
+        };
+        let url = "/coursedetails";
+        let uri = axios.getUri({ url, params });
+        navigate(uri);
+    }
 
+    const handleLecAddedErrClick = () => {
+        setAlertLecAddedErr(false);
+    }
+
+    const handleLecUpdated = () => {
+        setAlertLecUpdated(false);
+        const params = {
+            course_id: selectedCourse
+        };
+        let url = "/coursedetails";
+        let uri = axios.getUri({ url, params });
+        navigate(uri);
+    }
 
     return (
-        <div style={{ margin: '2rem' }}>
-            <div className="indexLec">
-                <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
-                <FormControl sx={{ m: 1, minWidth: 320 }}>
-                    <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={selectedCourse}
-                        placeholder="Select a Course"
-                        onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
-                    >
-                        {courses.map((course) => (
-                            <MenuItem value={course._id}>{course.courseName}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </div>
-            <h2>Content</h2>
-            {contentList.map((item, indexSubH) => (
-                <div style={{ marginBottom: '2rem' }}>
-                    <div>
-                        <TextField
-                            required
-                            id="outlined-required"
-                            style={{ width: "50%" }}
-                            placeholder="Enter Sub Heading"
-                            value={item.subHeading}
-                            onChange={(event) => {
-                                item.subHeading = event.target.value;
-                                setContentList([...contentList])
-                            }}
-                        />
-                    </div>
-                    {/* {item.paragraphs.map((paragraph, indexP) => (
-                        <div style={{ marginTop: '5px' }}>
+        <div>
+            <AlertLectureAdded alertLecAdded={alertLecAdded} handleClick={handleLecAddedClick} />
+            <AlertLectureErr alertLecAddedErr={alertLecAddedErr} handleClick={handleLecAddedErrClick} />
+            <AlertLectureUpdated alertLecUpdated={alertLecUpdated} handleClick={handleLecUpdated} />
+            <div style={{ margin: '2rem' }}>
+                <div className="indexLec">
+                    <TextField id="outlined-basic" label={title ? title : "Enter Title"} variant="outlined" onChange={(event) => setTitle(event.target.value)} />
+                    <FormControl sx={{ m: 1, minWidth: 320 }}>
+                        <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            value={selectedCourse}
+                            onChange={(e) => setSelectedCourse(e.target.value) && console.log(e.target.value)}
+                        >
+                            {courses.map((course) => (
+                                <MenuItem value={course._id}>{course.courseName}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
+                <h2>Content</h2>
+                {contentList.map((item, indexSubH) => (
+                    <div style={{ marginBottom: '2rem' }}>
+                        <div>
                             <TextField
-                                id="outlined-multiline-flexible"
-                                style={{ width: "70%" }}
-                                multiline
-                                rows={4}
-                                placeholder="Write a Paragraph"
-                                defaultValue={paragraph}
+                                required
+                                id="outlined-required"
+                                style={{ width: "50%" }}
+                                placeholder="Enter Sub Heading"
+                                value={item.subHeading}
                                 onChange={(event) => {
-                                    item.paragraphs[indexP] = event.target.value;
+                                    item.subHeading = event.target.value;
                                     setContentList([...contentList])
                                 }}
                             />
-                            <button
-                                style={{ margin: '2px', display: 'block' }}
-                                onClick={() => handleParagraphRemove(indexP, indexSubH)}
-                            >
-                                Remove Paragraph
-                            </button>
-                            {item.paragraphs.length - 1 === indexP &&
-                                <button
-                                    style={{ margin: '2px', display: 'block' }}
-                                    onClick={() => handleParagraphAdd(indexSubH)}
-                                >
-                                    Add Paragraph
-                                </button>}
                         </div>
-                    ))} */}
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        style={{ width: "100%", marginTop: '5px' }}
-                        multiline
-                        rows={10}
-                        placeholder="Write a Paragraph"
-                        value={item.paragraphs.join('\n')}
-                        onChange={(event) => {
-                            item.paragraphs = event.target.value.split('\n');
-                            setContentList([...contentList])
-                        }}
-                    />
-
-                    <Button variant="contained"
-                        style={{ display: 'block' }}
-                        onClick={handleSubHeadingRemove}
-                        className="button"
-                    >
-                        Remove Subheading
-                    </Button>
-
-                    {contentList.length - 1 === indexSubH &&
+                        <TextField
+                            id="outlined-multiline-flexible"
+                            style={{ width: "100%", marginTop: '5px' }}
+                            multiline
+                            rows={10}
+                            placeholder="Write a Paragraph"
+                            value={item.paragraphs.join('\n')}
+                            onChange={(event) => {
+                                item.paragraphs = event.target.value.split('\n');
+                                setContentList([...contentList])
+                            }}
+                        />
                         <Button variant="contained"
-                            style={{ marginTop: '15px', display: 'block' }}
-                            onClick={handleSubHeadingAdd}
-                            className="buttonArea"
+                            style={{ display: 'block' }}
+                            onClick={handleSubHeadingRemove}
+                            className="button"
                         >
-                            Add Subheading
-                        </Button>}
-
-
-
-
-                </div >
-            ))}
-
-
-            <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</Button>
+                            Remove Subheading
+                        </Button>
+                        {contentList.length - 1 === indexSubH &&
+                            <Button variant="contained"
+                                style={{ marginTop: '15px', display: 'block' }}
+                                onClick={handleSubHeadingAdd}
+                                className="buttonArea"
+                            >
+                                Add Subheading
+                            </Button>}
+                    </div >
+                ))}
+                <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>{LecId ? "Update Lecture" : "Add Lecture"}</Button>
+            </div>
         </div>
     );
 };

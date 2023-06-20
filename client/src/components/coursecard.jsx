@@ -63,7 +63,7 @@ export default function CourseCard(props) {
                                 onClick={handleLearn}
                                 style={{marginRight:'1rem', marginTop:'0.5rem'}}
                             >
-                                View Lectures <span className="font-InterSemibold">↗ </span>
+                                View Modules <span className="font-InterSemibold">↗ </span>
                             </Button>
                             <Button
                                 variant="contained"
