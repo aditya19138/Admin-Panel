@@ -232,12 +232,13 @@ export const unenrollStudent = async (req, res) => {
 
 // post request to add a course
 export const addCourse = async (req, res) => {
-  const { courseName, courseDescription, instructor, category } = req.body;
+  const { courseName, courseDescription, instructor, category, courseImage } = req.body;
   const newCourse = new Course({
     courseName,
     courseDescription,
     instructor,
-    category
+    category,
+    courseImage
   });
   newCourse.save()
     .then((course) => res.status(200).json({ message: "course added successfully" }))

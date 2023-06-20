@@ -23,7 +23,7 @@ export default function Coursepage() {
     useEffect(() => {
         fetchCourses();
     }, []);
- 
+
     return (
         <div className="min-h-screen bg-[#171717] bg-fixed bg-bgPattern p-5 pt-24">
             <div className="flex flex-col items-center courseHead">
@@ -51,8 +51,8 @@ export default function Coursepage() {
                             id={course._id}
                             title={course.courseName}
                             description={course.courseDescription}
-                            image={CoursePhoto}
-                            link={course.link}
+                            image={(course.courseImage) ? course.courseImage : CoursePhoto}
+                            // link={course.link}
                             lectures={course.lectures}
                         />
                     );

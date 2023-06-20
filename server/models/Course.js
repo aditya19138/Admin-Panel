@@ -11,15 +11,24 @@ const CourseSchema = new Schema(
             type: String,
             required: true
         },
+        courseImage: {
+            type: String,
+            required: true
+        },
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: "Category"
+
+        },
         instructor: { type: Schema.Types.ObjectId, ref: "User" },
-        category: { type: Schema.Types.ObjectId, ref: "category" },
+        //category: { type: Schema.Types.ObjectId, ref: "Category" },
         lectures: [{
             type: Schema.Types.ObjectId,
-            ref: "lectures"
+            ref: "Lecture"
         }],
         enrolledStudents: [{
             type: Schema.Types.ObjectId,
-            ref: "user"
+            ref: "User"
         }],
         completedLectures: {
             type: Number,
@@ -30,6 +39,15 @@ const CourseSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "Assignment"
         }],
+
+        live: {
+            type: Boolean,
+        },
+
+        NFTid: {
+            type: Schema.Types.ObjectId,
+            ref: "NFTs"
+        }
 
 
     },
