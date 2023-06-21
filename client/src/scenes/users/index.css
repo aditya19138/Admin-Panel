@@ -25,3 +25,9 @@
     border-radius: 1rem;
     background-color: slategray;
 }
+
+.listItem :hover{
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    background-color: red;
+}

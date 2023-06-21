@@ -99,7 +99,6 @@ export default function InteractiveList() {
     // console.log(lecData)
     return (
         <Box sx={{ flexGrow: 5, maxWidth: 752 }} className='user'>
-            {console.log('id',id)}
             {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id}/>}
             <div className='userHeading'>
                 <h1>User List</h1>
