@@ -54,5 +54,5 @@ const CourseSchema = new Schema(
     { timestamps: { createdAt: "created_at" } }
 );
 
-const Course = mongoose.model("courses", CourseSchema);
+const Course = mongoose.model("Course", CourseSchema);
 export default Course;

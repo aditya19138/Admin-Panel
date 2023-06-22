@@ -24,5 +24,5 @@ const LectureSchema = new Schema({
     }],
 }, { timestamps: { uploadedAt: 'created_at' } });
 
-const Lecture = mongoose.model('lectures', LectureSchema);
+const Lecture = mongoose.model('Lecture', LectureSchema);
 export default Lecture;

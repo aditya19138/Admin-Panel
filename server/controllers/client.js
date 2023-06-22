@@ -5,7 +5,6 @@ import Lecture from "../models/Lecture.js";
 import Course from "../models/Course.js";
 import NFT from "../models/nft.js";
 import Assignment from "../models/Assignment.js";
-import getCountryIso3 from "country-iso-2-to-3";
 import Category from "../models/Category.js";
 import validateRegisterInput from "../validation/register.js";
 import bcrypt from "bcryptjs";
@@ -161,7 +160,13 @@ export const addAssignment = async (req, res) => {
 
   });
   newAsgn.save()
-    .then((asgn) => res.send(asgn))
+    .then((asgn) => {
+      Lecture.findOneAndUpdate({ _id: lectureId }, { $push: { assignments: asgn._id } })
+      res
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+
+
 }
 
 // post request to delete an assignment

@@ -75,7 +75,7 @@ export default function InteractiveList() {
                                     <Tooltip title="Update Lecture" arrow>
                                         <Button
                                             component={Link}
-                                            to={`/lecture?lecId=${item._id}`}
+                                            to={`/module?lecId=${item._id}`}
                                         >
                                             <Avatar>
                                                 <SettingsIcon />
