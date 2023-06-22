@@ -18,6 +18,7 @@ import Select from '@mui/material/Select';
 import axios from "axios";
 import './index.css';
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -131,7 +132,7 @@ const Lectures = () => {
             lectureId: LecId
         })
             .then(function (response) {
-                etAlertLecAdded(true)
+                setAlertLecAdded(true)
             })
             .catch(function (error) {
                 setAlertLecAddedErr(true)

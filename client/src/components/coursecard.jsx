@@ -37,7 +37,7 @@ export default function CourseCard(props) {
             <div className="p-5 bg-[#202020] rounded-md">
                 <div>
                     {/* image  */}
-                    <img src={props.image || CoursePhoto} alt="Course Display" />
+                    <img src={props.image || CoursePhoto} alt="Course Display" className="image"/>
                 </div>
                 <div className="flex justify-between my-4 mb-2">
                     {/* heading and share  */}
