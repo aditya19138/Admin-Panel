@@ -17,7 +17,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
 import './index.css';
-import { ToastContainer, toast } from 'react-toastify';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -132,9 +131,7 @@ const Lectures = () => {
             lectureId: LecId
         })
             .then(function (response) {
-                toast.success(`Lecture Updated Successfully`, response, {
-                    position: toast.POSITION.TOP_RIGHT
-                });
+                etAlertLecAdded(true)
             })
             .catch(function (error) {
                 setAlertLecAddedErr(true)
