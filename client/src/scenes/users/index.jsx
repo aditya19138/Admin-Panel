@@ -38,7 +38,6 @@ function AlertDelete({del, handleClick, id}) {
                 open={del}
                 TransitionComponent={Transition}
                 keepMounted
-                onClose={()=>handleClick(id)}
                 aria-describedby="alert-dialog-slide-description"
             >
                 <DialogContent>
