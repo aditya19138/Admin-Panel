@@ -162,7 +162,7 @@ export const addAssignment = async (req, res) => {
   newAsgn.save()
     .then((asgn) => {
       Lecture.findOneAndUpdate({ _id: lectureId }, { $push: { assignments: asgn._id } })
-      res
+      res.send(asgn)
     })
     .catch((err) => res.status(500).json({ message: err.message }))
 
