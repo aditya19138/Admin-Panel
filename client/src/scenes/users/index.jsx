@@ -31,7 +31,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-function AlertDelete({del, handleClick, id}) {
+function AlertDelete({del, handleClick, id, handleClose}) {
     return (
         <div>
             <Dialog
@@ -39,6 +39,7 @@ function AlertDelete({del, handleClick, id}) {
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-description"
+                onClose={handleClose}
             >
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
@@ -91,6 +92,10 @@ export default function InteractiveList() {
         setId(userId)
     }
 
+    const handleClose = () => {
+        setDelDialog(false);
+    }
+
     useEffect(() => {
         fetchUsers();
     }, [])
@@ -98,7 +103,7 @@ export default function InteractiveList() {
     // console.log(lecData)
     return (
         <Box sx={{ flexGrow: 5, maxWidth: 752 }} className='user'>
-            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id}/>}
+            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id} handleClose={handleClose}/>}
             <div className='userHeading'>
                 <h1>User List</h1>
                 <Button

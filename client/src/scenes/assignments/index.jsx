@@ -33,7 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-function AlertDelete({del, handleClick, id}) {
+function AlertDelete({del, handleClick, id, handleClose}) {
     return (
         <div>
             <Dialog
@@ -41,6 +41,7 @@ function AlertDelete({del, handleClick, id}) {
                 TransitionComponent={Transition}
                 keepMounted
                 aria-describedby="alert-dialog-slide-description"
+                onClose={handleClose}
             >
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
@@ -95,6 +96,10 @@ export default function Assignments() {
         setId(userId)
     }
 
+    const handleClose = () => {
+        setDelDialog(false);
+    }
+
 
     useEffect(() => {
         fetchAssignments();
@@ -108,7 +113,7 @@ export default function Assignments() {
     return (
 
         <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='assigment'>
-            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id}/>}
+            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id} handleClose={handleClose}/>}
             <div className='assigmentHeading'>
                 <h1>Assignment List</h1>
                 <Button
