@@ -30,12 +30,11 @@ const ImageDisplay = ({ imageUrl }) => {
 };
 
 
-export default function NFTs() {
-    const [nftsData, setNftsData] = useState(null);
+export default function MintedNFTs() {
+    const [mintedNftsData, setMintedNftsData] = useState(null);
 
-
-    const fetchNfts = async () => {
-        await axios.get(`${process.env.REACT_APP_API_URL}/client/nfts`)
+    const fetchMintedNfts = async () => {
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/mintednfts`)
             .then((response) => {
                 setNftsData(response.data)
                 console.log(response.data)
@@ -61,7 +60,7 @@ export default function NFTs() {
 
 
     useEffect(() => {
-        fetchNfts();
+        fetchMintedNfts();
     }, [])
 
     // console.log(asgnData)

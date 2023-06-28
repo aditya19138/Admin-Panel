@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import Lecture from "../models/Lecture.js";
 import Course from "../models/Course.js";
 import NFT from "../models/nft.js";
+import MintedNft from "../models/mintedNft.js";
 import Assignment from "../models/Assignment.js";
 import Category from "../models/Category.js";
 import validateRegisterInput from "../validation/register.js";
@@ -214,12 +215,6 @@ export const getInstructors = async (req, res) => {
     .catch((err) => res.status(500).json({ message: err.message }))
 }
 
-// get request to get all the mintednfts
-export const getMintedNfts = async (req, res) => {
-  MintedNft.find().then((mintednfts) => {
-    res.status(200).json(mintednfts)
-  })
-}
 
 // post request to unenroll a student
 export const unenrollStudent = async (req, res) => {
@@ -249,6 +244,14 @@ export const addCourse = async (req, res) => {
     .then((course) => res.status(200).json({ message: "course added successfully" }))
     .catch((err) => res.status(500).json({ message: err.message }))
 }
+export const getMintedNfts = async (req, res) => {
+  MintedNft.find().populate('nftId')
+    .then((mintednfts) => {
+      res.status(200).json(mintednfts)
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
 
 
 
