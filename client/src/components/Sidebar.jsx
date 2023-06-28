@@ -37,7 +37,7 @@ import { useCookies } from 'react-cookie';
 
 const navItems = [
   {
-    text: "Lecture",
+    text: "Module",
     icon: <ShoppingCartOutlined />,
   },
   {
@@ -50,6 +50,10 @@ const navItems = [
   },
   {
     text: "Assignments",
+    icon: <ShoppingCartOutlined />
+  },
+  {
+    text: "NFTs",
     icon: <ShoppingCartOutlined />
   }
 ];

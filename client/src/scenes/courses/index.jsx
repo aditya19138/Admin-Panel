@@ -4,6 +4,7 @@ import axios from "axios";
 import CoursePhoto from "../../assets/CoursePhoto.png";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import './index.css'
 
 
 export default function Coursepage() {
@@ -25,11 +26,11 @@ export default function Coursepage() {
 
     return (
         <div className="min-h-screen bg-[#171717] bg-fixed bg-bgPattern p-5 pt-24">
-            <div className="flex flex-col items-center">
-                <h1 className="text-white font-BrinnanBold text-center text-5xl py-5 uppercase">
+            <div className="flex flex-col items-center courseHead">
+                <h1 className="text-white font-BrinnanBold text-center text-5xl uppercase ">
                     Courses
                 </h1>
-                <p className="text-neutral-400 font-InterRegular text-center text-base pb-5 w-3/4">
+                <p className="text-neutral-400 font-InterRegular text-center text-base pb-5 w-3/4 coursePara">
                     The Lumos Education Platform offers newbie developers the opportunity
                     to get acquainted with the fundamental concepts of the web3 ecosystem
                     such as blockchain technology, cryptocurrencies, tokens, wallets, NFTs
@@ -43,19 +44,17 @@ export default function Coursepage() {
                     Add Course
                 </Button>
             </div>
-            <div className="grid md:grid-cols-3 md:p-5">
+            <div className="grid md:grid-cols-3 md:p-5 card">
                 {courseData?.map((course) => {
-                    // console.log(course._id);
                     return (
                         <CourseCard
                             id={course._id}
                             title={course.courseName}
                             description={course.courseDescription}
-                            image={CoursePhoto}
-                            link={course.link}
+                            image={(course.courseImage) ? course.courseImage : CoursePhoto}
+                            // link={course.link}
                             lectures={course.lectures}
                         />
-
                     );
                 }, [])}
             </div>

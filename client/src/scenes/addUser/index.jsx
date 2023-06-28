@@ -37,7 +37,7 @@ export default function MultilineTextFields() {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 4, width: '50ch' },
             }}
             noValidate
             autoComplete="off"
@@ -90,6 +90,7 @@ export default function MultilineTextFields() {
                 variant="contained"
                 color='success'
                 onClick={addUser}
+                style={{marginLeft:'2rem'}}
             >Add User
             </Button>
 

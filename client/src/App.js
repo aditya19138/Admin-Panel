@@ -18,11 +18,12 @@ import Admin from "scenes/admin";
 import RequireAuth from "./components/RequireAuth";
 import AddCourse from "scenes/addCourse";
 import AddUser from "scenes/addUser";
+import NFTs from "scenes/nfts";
 
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const theme = useMemo(() => createTheme(themeSettings("dark")), [mode]);
   return (
     <div className="app">
       <BrowserRouter>
@@ -36,7 +37,7 @@ function App() {
                 <Route path="/" element={<Navigate to="/courses" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/lectures" element={<Lectures />} />
-                <Route path="/lecture" element={<Lectures />} /> // route for lecture details
+                <Route path="/module" element={<Lectures />} /> // route for lecture details
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/courses/add" element={<AddCourse />} />
                 <Route path="/enrollments" element={<Enrollments />} />
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/coursedetails" element={<CourseDetails />} />
                 <Route path="/assignments" element={<Assignments />} />
                 <Route path="/assignments/add" element={<AddAssignment />} />
+                <Route path="/nfts" element={<NFTs />} />
                 <Route path="/admin" element={<Admin />} />
               </Route>
             </Route>

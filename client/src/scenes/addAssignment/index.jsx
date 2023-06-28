@@ -15,6 +15,7 @@ export default function MultilineTextFields() {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedLecture, setSelectedLecture] = useState(null);
     const [question, setQuestion] = useState(null);
+    const [quesType, setQuesType] = useState("multi-line");
     const [answer, setAnswer] = useState(null);
     const [option1, setOption1] = useState(null);
     const [option2, setOption2] = useState(null);
@@ -49,7 +50,7 @@ export default function MultilineTextFields() {
         await axios.post(`${process.env.REACT_APP_API_URL}/client/assignments/add`, {
             lectureId: lectureId,
             question: question,
-            type: "multiple-choice",
+            type: quesType,
             options: options,
             correctAns: answer
         }).then((response) => {
@@ -61,7 +62,8 @@ export default function MultilineTextFields() {
     }
     useEffect(() => {
         console.log(selectedCourse);
-        fetchLectures();
+        if (selectedCourse)
+            fetchLectures();
     }, [selectedCourse]);
 
     useEffect(() => {
@@ -80,12 +82,12 @@ export default function MultilineTextFields() {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '75%' },
+                '& .MuiTextField-root': { m: 2, width: '75%' },
             }}
             noValidate
             autoComplete="off"
         >
-            <div>
+            <div style={{ marginLeft: '2rem' }}>
                 <FormControl sx={{ m: 1, minWidth: 220 }}>
                     <InputLabel id="demo-simple-select-helper-label">Select course</InputLabel>
                     <Select
@@ -114,8 +116,23 @@ export default function MultilineTextFields() {
                         ))}
                     </Select>
                 </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 220 }}>
+                    <InputLabel id="demo-simple-select-helper-label">Select Question Type</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={quesType}
+                        label="Select Question Type"
+                        onChange={(e) => setQuesType(e.target.value) && console.log(e.target.value)}
+                    >
+                        <MenuItem value="multi-line">Multi-line</MenuItem>
+                        <MenuItem value="single-line">Single-line</MenuItem>
+
+
+                    </Select>
+                </FormControl>
             </div>
-            <div>
+            <div style={{ marginLeft: '1.5rem' }}>
                 <TextField
                     id="outlined-multiline-flexible"
                     label="Question"
@@ -124,43 +141,46 @@ export default function MultilineTextFields() {
                     onChange={(e) => setQuestion(e.target.value)}
                 />
             </div>
-            <div>
-                <TextField
-                    id="filled-multiline-flexible "
-                    style={{ width: '50%' }}
-                    label="Option 1"
-                    multiline
-                    maxRows={4}
-                    variant="filled"
-                    onChange={(e) => setOption1(e.target.value)}
-                />
-                <TextField
-                    id="filled-multiline-flexible "
-                    style={{ width: '50%' }}
-                    label="Option 2"
-                    multiline
-                    maxRows={4}
-                    variant="filled"
-                    onChange={(e) => setOption2(e.target.value)}
-                />
-                <TextField
-                    id="filled-multiline-flexible "
-                    style={{ width: '50%' }}
-                    label="Option 3"
-                    multiline
-                    maxRows={4}
-                    variant="filled"
-                    onChange={(e) => setOption3(e.target.value)}
-                />
-                <TextField
-                    id="filled-multiline-flexible "
-                    style={{ width: '50%' }}
-                    label="Option 4"
-                    multiline
-                    maxRows={4}
-                    variant="filled"
-                    onChange={(e) => setOption4(e.target.value)}
-                />
+            {(quesType === "multi-line") && (
+                <div style={{ marginLeft: '1.5rem' }}>
+                    <TextField
+                        id="filled-multiline-flexible "
+                        style={{ width: '50%' }}
+                        label="Option 1"
+                        multiline
+                        maxRows={4}
+                        variant="filled"
+                        onChange={(e) => setOption1(e.target.value)}
+                    />
+                    <TextField
+                        id="filled-multiline-flexible "
+                        style={{ width: '50%' }}
+                        label="Option 2"
+                        multiline
+                        maxRows={4}
+                        variant="filled"
+                        onChange={(e) => setOption2(e.target.value)}
+                    />
+                    <TextField
+                        id="filled-multiline-flexible "
+                        style={{ width: '50%' }}
+                        label="Option 3"
+                        multiline
+                        maxRows={4}
+                        variant="filled"
+                        onChange={(e) => setOption3(e.target.value)}
+                    />
+                    <TextField
+                        id="filled-multiline-flexible "
+                        style={{ width: '50%' }}
+                        label="Option 4"
+                        multiline
+                        maxRows={4}
+                        variant="filled"
+                        onChange={(e) => setOption4(e.target.value)}
+                    />
+                </div>)}
+            <div style={{ display: 'flex', flexDirection: 'column', marginLeft: "1.5rem" }}>
                 <TextField
                     id="filled-multiline-flexible "
                     style={{ width: '50%' }}
@@ -174,6 +194,7 @@ export default function MultilineTextFields() {
                     variant="contained"
                     color="success"
                     onClick={() => addAssignment(selectedLecture)}
+                    style={{ width: '15%', marginLeft: '1rem', marginTop: '1rem' }}
                 >
                     Submit Question
                 </Button>
