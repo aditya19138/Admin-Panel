@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/tooltip';
+// import Tooltip from '@mui/material/tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -33,7 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-function AlertDelete({del, handleClick, id, handleClose}) {
+function AlertDelete({ del, handleClick, id, handleClose }) {
     return (
         <div>
             <Dialog
@@ -49,7 +49,7 @@ function AlertDelete({del, handleClick, id, handleClose}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={()=>handleClick(id)}>Yep</Button>
+                    <Button onClick={() => handleClick(id)}>Yep</Button>
                 </DialogActions>
             </Dialog>
         </div>
@@ -113,7 +113,7 @@ export default function Assignments() {
     return (
 
         <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='assigment'>
-            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id} handleClose={handleClose}/>}
+            {delDialog && <AlertDelete del={delDialog} handleClick={handleDeleteAxios} id={id} handleClose={handleClose} />}
             <div className='assigmentHeading'>
                 <h1>Assignment List</h1>
                 <Button
@@ -132,11 +132,11 @@ export default function Assignments() {
                             <ListItem
                                 key={item._id}
                                 secondaryAction={
-                                    <Tooltip title="Delete" arrow>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Tooltip>
+                                    // <Tooltip title="Delete" arrow>
+                                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                    // </Tooltip>
                                 }
                             >
                                 <ListItemAvatar>
