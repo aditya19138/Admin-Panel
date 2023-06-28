@@ -32,16 +32,30 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "assets/profile.jpeg";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useCookies } from 'react-cookie';
 
 const navItems = [
   {
-    text: "Lectures",
+    text: "Module",
     icon: <ShoppingCartOutlined />,
   },
   {
     text: "Courses",
     icon: <ShoppingCartOutlined />,
   },
+  {
+    text: "Users",
+    icon: <ShoppingCartOutlined />,
+  },
+  {
+    text: "Assignments",
+    icon: <ShoppingCartOutlined />
+  },
+  {
+    text: "NFTs",
+    icon: <ShoppingCartOutlined />
+  }
 ];
 
 const Sidebar = ({
@@ -53,6 +67,7 @@ const Sidebar = ({
 }) => {
   const { pathname } = useLocation();
   const [active, setActive] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -84,7 +99,7 @@ const Sidebar = ({
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <Typography variant="h4" fontWeight="bold">
-                    ECOMVISION
+                    Lumos Labs Admin Panel
                   </Typography>
                 </Box>
                 {!isNonMobile && (
@@ -148,16 +163,7 @@ const Sidebar = ({
           <Box position="absolute" bottom="2rem">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
-              <Box
-                component="img"
-                alt="profile"
-                src={profileImage}
-                height="40px"
-                width="40px"
-                borderRadius="50%"
-                sx={{ objectFit: "cover" }}
-              />
-              <Box textAlign="left">
+              {/* <Box textAlign="left">
                 <Typography
                   fontWeight="bold"
                   fontSize="0.9rem"
@@ -171,13 +177,18 @@ const Sidebar = ({
                 >
                   {user.occupation}
                 </Typography>
-              </Box>
-              <SettingsOutlined
+              </Box> */}
+              <LogoutIcon
                 sx={{
                   color: theme.palette.secondary[300],
                   fontSize: "25px ",
                 }}
-              />
+                onClick={() => {
+                  removeCookie('token');
+                  navigate('/login');
+                }}
+
+              />Logout
             </FlexBetween>
           </Box>
         </Drawer>

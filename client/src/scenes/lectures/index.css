@@ -1,0 +1,22 @@
+
+
+.textField {
+    margin: 2rem;
+}
+
+.textFieldBox {
+    margin-top: 1rem;
+}
+
+.button {
+    margin-top: 0.2rem !important;
+}
+
+.indexLec {
+    display: flex;
+    place-items: center;
+}
+
+.buttonArea {
+    margin-top: 0.5rem;
+}

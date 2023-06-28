@@ -9,20 +9,15 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
-
-function generate(element) {
-    return [0, 1, 2].map((value) =>
-        React.cloneElement(element, {
-            key: value,
-        }),
-    );
-}
+import { Button } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import './index.css'
 
 const Demo = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -38,7 +33,7 @@ export default function InteractiveList() {
 
 
     const fetchLectures = async () => {
-        await axios.get(`http://localhost:5000/client/lectures?id=${courseId}`)
+        await axios.get(`${process.env.REACT_APP_API_URL}/client/lectures?id=${courseId}`)
             .then((response) => {
                 setLecData(response.data)
                 console.log(response.data[0])
@@ -46,6 +41,20 @@ export default function InteractiveList() {
                 console.log(error)
             })
     }
+    const handleDelete = async (lectureId) => {
+        await axios.post(`${process.env.REACT_APP_API_URL}/client/lecture/delete?id=${lectureId}`, {
+            lectureId: lectureId,
+            courseId: courseId
+
+        })
+            .then((response) => {
+                console.log(response.data)
+                setLecData(lecData.filter((lecture) => lecture._id !== lectureId));
+            }).catch((error) => {
+                console.log(error)
+            })
+    };
+
 
     useEffect(() => {
         fetchLectures();
@@ -53,23 +62,49 @@ export default function InteractiveList() {
 
     console.log(lecData)
     return (
-        <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
-            <Demo>
-                <List >
+        <Box sx={{ flexGrow: 1, maxWidth: 752 }} className='module'>
+            <h1 className='moduleHeading'>Modules List</h1>
+            <Demo className='moduleList'>
+                <List className='moduleLisst'>
                     {lecData?.map((item) => (
-                        // create a list of lectures with link to lecture details
-
                         <ListItem
                             key={item._id}
-                            component={Link}
-                            to={`/lecture?lecId=${item._id}`}
-                            // onClick={navigate(axios.getUri({ url: "/lectures", searchparams: { lectureId: item._id } }))}
+                            className='moduleItem'
                             secondaryAction={
-                                <IconButton edge="end" aria-label="delete">
-                                    <DeleteIcon />
-                                </IconButton>
+                                <div>
+                                    <Tooltip title="Update Lecture" arrow>
+                                        <Button
+                                            component={Link}
+                                            to={`/module?lecId=${item._id}`}
+                                        >
+                                            <Avatar>
+                                                <SettingsIcon />
+                                            </Avatar>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="View Asignments" arrow>
+                                        <Button
+                                            component={Link}
+                                            to={`/assignments?lectureId=${item._id}`}
+                                        >
+                                            <Avatar>
+                                                <AssignmentIcon />
+                                            </Avatar>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="Delete" arrow>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(item._id)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </div>
+
+
                             }
                         >
+
                             <ListItemAvatar>
                                 <Avatar>
                                     <FolderIcon />
@@ -78,6 +113,17 @@ export default function InteractiveList() {
                             <ListItemText
                                 primary={item.title}
                             />
+                            {/* <Tooltip title="View Asignments" arrow>
+                                <Button
+                                    component={Link}
+                                    to={`/assignments?lectureId=${item._id}`}
+                                >
+                                    <Avatar>
+                                        <AssignmentIcon />
+                                    </Avatar>
+                                </Button>
+                            </Tooltip> */}
+
                         </ListItem>)
                     )}
                 </List>
