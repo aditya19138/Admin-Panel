@@ -16,8 +16,10 @@ import {
   getInstructors,
   unenrollStudent,
   addCourse,
-  addUser
-  , getNFTs
+  addUser,
+  getNFTs,
+  getMintedNfts
+
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -40,6 +42,7 @@ router.get("/assignments", getAssignments);
 router.post("/assignments/add", addAssignment);
 router.post("/assignment/delete", deleteAsgn)
 router.get("/nfts", getNFTs);
+router.get("/mintednfts", getMintedNfts);
 
 
 export default router;
