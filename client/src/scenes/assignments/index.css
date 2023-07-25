@@ -1,33 +1,43 @@
-.assigmentHeading{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.assigmentHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.assigment{
-    margin-top: 1rem;
-    margin-left: 2rem;
+.assigment {
+  margin-top: 0.5rem;
+  margin-left: 20px;
+  width: calc(100% - 60px) !important;
 }
 
-.assigmentList{
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    border-radius: 1rem;
-    background-color: #191F45;
+.assigmentList {
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  border-radius: 1rem;
+  background-color: #191f45;
 }
 
-.assigmentLisst{
-    background-color: #191F45;
+.assigmentLisst {
+  background-color: #191f45;
 }
 
-.assigmentItem{
-    margin-bottom: 0.5rem;
-    border-radius: 1rem;
-    background-color: #757575;
+.assigmentItem {
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  border-radius: 1rem;
+  background-color: #757575;
 }
 
-.assigmentItem :hover{
-    margin-bottom: 0.5rem;
-    border-radius: 1rem;
-    background-color: #757575;
+.assigmentItem :hover {
+  border-radius: 1rem;
+  background-color: #535252;
+}
+
+.pagination {
+  border-radius: 1rem;
+  background-color: #191f45;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 2rem;
 }
