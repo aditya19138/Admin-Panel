@@ -25,6 +25,7 @@ const Demo = styled("div")(({ theme }) => ({
 
 export default function InteractiveList() {
   const [lecData, setLecData] = useState(null);
+  const [miniData, setMiniData] = useState(null);
   let [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const courseId = searchParams.get("course_id");
@@ -36,6 +37,18 @@ export default function InteractiveList() {
       .get(`${process.env.REACT_APP_API_URL}/client/lectures?id=${courseId}`)
       .then((response) => {
         setLecData(response.data);
+        console.log(response.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchMini = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/client/minis?id=${courseId}`)
+      .then((response) => {
+        setMiniData(response.data);
         console.log(response.data[0]);
       })
       .catch((error) => {
@@ -61,12 +74,31 @@ export default function InteractiveList() {
       });
   };
 
+  const handleMiniDelete = async (miniId) => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/client/mini/delete?id=${miniId}`,
+        {
+          miniId: miniId,
+          courseId: courseId,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setMiniData(miniData.filter((mini) => mini._id !== miniId));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleAddModule = () => {
     navigate("/module");
   };
 
   useEffect(() => {
     fetchLectures();
+    fetchMini();
   }, []);
 
   console.log(lecData);
@@ -123,7 +155,6 @@ export default function InteractiveList() {
                       </Avatar>
                     </Button>
                   </Tooltip>
-
                   <Tooltip title="Delete" arrow>
                     <IconButton
                       edge="end"
@@ -142,16 +173,79 @@ export default function InteractiveList() {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={item.title} />
-              {/* <Tooltip title="View Asignments" arrow>
-                                <Button
-                                    component={Link}
-                                    to={`/assignments?lectureId=${item._id}`}
-                                >
-                                    <Avatar>
-                                        <AssignmentIcon />
-                                    </Avatar>
-                                </Button>
-                            </Tooltip> */}
+            </ListItem>
+          ))}
+        </List>
+      </Demo>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <h1 className="moduleHeading">Mini List</h1>
+        <Button
+          component={Link}
+          to={`/mini?corId=${courseId}`}
+          variant="contained"
+          onClick={handleAddModule}
+        >
+          Add a Module{" "}
+          <span
+            style={{
+              marginLeft: "0.5rem",
+            }}
+            className="font-InterSemibold"
+          >
+            ↗{" "}
+          </span>
+        </Button>
+      </Box>
+      <Demo className="moduleList">
+        <List className="moduleLisst">
+          {miniData?.map((item) => (
+            <ListItem
+              key={item._id}
+              className="moduleItem"
+              secondaryAction={
+                <div>
+                  <Tooltip title="Update Lecture" arrow>
+                    <Button component={Link} to={`/mini?lecId=${item._id}`}>
+                      <Avatar>
+                        <SettingsIcon />
+                      </Avatar>
+                    </Button>
+                  </Tooltip>
+
+                  <Tooltip title="View Asignments" arrow>
+                    <Button
+                      component={Link}
+                      to={`/assignments?lectureId=${item._id}`}
+                    >
+                      <Avatar>
+                        <AssignmentIcon />
+                      </Avatar>
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Delete" arrow>
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleMiniDelete(item._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+              }
+            >
+              <ListItemAvatar>
+                <Avatar>
+                  <FolderIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={item.title} />
             </ListItem>
           ))}
         </List>

@@ -19,6 +19,7 @@ import RequireAuth from "./components/RequireAuth";
 import AddCourse from "scenes/addCourse";
 import AddUser from "scenes/addUser";
 import NFTs from "scenes/nfts";
+import Mini from "scenes/mini";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/lectures" element={<Lectures />} />
                 <Route path="/module" element={<Lectures />} /> // route for lecture details
+                <Route path="/mini" element={<Mini />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/courses/add" element={<AddCourse />} />
                 <Route path="/enrollments" element={<Enrollments />} />
