@@ -26,6 +26,10 @@ const CourseSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "Lecture"
         }],
+        mini: [{
+            type: Schema.Types.ObjectId,
+            ref: "Mini"
+        }],
         enrolledStudents: [{
             type: Schema.Types.ObjectId,
             ref: "User"

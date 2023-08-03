@@ -2,6 +2,7 @@ import Product from "../models/Product.js";
 import ProductStat from "../models/ProductStat.js";
 import User from "../models/User.js";
 import Lecture from "../models/Lecture.js";
+import Mini from "../models/mini.js"
 import Course from "../models/Course.js";
 import NFT from "../models/nft.js";
 import MintedNft from "../models/mintedNft.js";
@@ -250,6 +251,65 @@ export const getMintedNfts = async (req, res) => {
       res.status(200).json(mintednfts)
     })
     .catch((err) => res.status(500).json({ message: err.message }))
+}
+// mini 
+// add mini
+export const postMini = async (req, res) => {
+  const { no, title, content, courseId } = req.body;
+  console.log(req.body)
+  const newMini = new Mini({
+    no,
+    title,
+    content,
+    course: courseId
+  });
+  newMini.save()
+    .then((Mini) => {
+      console.log(Mini)
+      Course.findOneAndUpdate({ _id: courseId }, { $push: { mini: newMini._id } })
+        .then((course) => res.status(200).json({ message: "Mini added successfully" })
+        )
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+//fetch all mini lec
+export const fetchMini = async (req, res) => {
+  const { id } = req.query;
+  Course.find({ _id: id })
+    .populate('mini')
+    .then((resp) => {
+      console.log(resp)
+      let mini = resp[0].mini
+      res.status(200).json(mini)
+    })
+    .catch((err) => res.status(500).json({ message: err.message }))
+}
+
+export const deleteMini = async (req, res) => {
+  const { miniId, courseId } = req.body;
+  console.log(miniId, courseId)
+  Mini.deleteOne({ _id: miniId })
+    .then((mini) => console.log(mini))
+  Course.findOneAndUpdate({ _id: courseId }, { $pull: { mini: miniId } })
+    .then((course) => console.log(course))
+  res.status(200).json({ message: "mini deleted successfully" })
+}
+
+export const getMini = async (req, res) => {
+  const { id } = req.query;
+  Mini.find({ _id: id })
+    .then((resp) => {
+      res.status(200).json(resp)
+    })
+}
+export const updateMini = async(req, res) => {
+  const { title, content, lectureId } = req.body;
+  Mini.findOneAndUpdate({ _id: lectureId }, { title, content })
+    .then((mini) => console.log(mini))
+  res.status(200).json({ message: "lecture updated successfully" })
+
+
 }
 
 

@@ -18,8 +18,12 @@ import {
   addCourse,
   addUser,
   getNFTs,
-  getMintedNfts
-
+  getMintedNfts,
+  deleteMini,
+  fetchMini,
+  postMini,
+  getMini,
+  updateMini
 } from "../controllers/client.js";
 
 const router = express.Router();
@@ -43,6 +47,13 @@ router.post("/assignments/add", addAssignment);
 router.post("/assignment/delete", deleteAsgn)
 router.get("/nfts", getNFTs);
 router.get("/mintednfts", getMintedNfts);
+
+
+router.post("/mini/add", postMini)
+router.get("/minis", fetchMini);
+router.post("/mini/delete", deleteMini);
+router.get("/mini", getMini);
+router.patch("/mini/update", updateMini)
 
 
 export default router;
