@@ -28,8 +28,6 @@ export default function InteractiveList() {
   let [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const courseId = searchParams.get("course_id");
-  console.log("courseId=" + courseId);
-  let url = "/lectures";
 
   const fetchLectures = async () => {
     await axios
@@ -69,7 +67,6 @@ export default function InteractiveList() {
     fetchLectures();
   }, []);
 
-  console.log(lecData);
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }} className="module">
       <Box
@@ -82,7 +79,7 @@ export default function InteractiveList() {
         <h1 className="moduleHeading">Modules List</h1>
         <Button
           component={Link}
-          to={`/lecture?corId=${courseId}`}
+          to={`/minilec?corId=${courseId}`}
           variant="contained"
           onClick={handleAddModule}
         >
@@ -106,7 +103,7 @@ export default function InteractiveList() {
               secondaryAction={
                 <div>
                   <Tooltip title="Update Lecture" arrow>
-                    <Button component={Link} to={`/lecture?lecId=${item._id}`}>
+                    <Button component={Link} to={`/minilec?lecId=${item._id}`}>
                       <Avatar>
                         <SettingsIcon />
                       </Avatar>

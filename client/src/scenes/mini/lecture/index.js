@@ -10,21 +10,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Slide from "@mui/material/Slide";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import "./index.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AlertLectureAdded({ alertLecAdded, handleClick }) {
+const label = { inputProps: { "aria-label": "Images ?" } };
+
+function AlertMiniAdded({ alertMiniAdded, handleClick }) {
   return (
     <div>
       <Dialog
-        open={alertLecAdded}
+        open={alertMiniAdded}
         TransitionComponent={Transition}
         keepMounted
         onClose={() => handleClick()}
@@ -43,7 +46,7 @@ function AlertLectureAdded({ alertLecAdded, handleClick }) {
   );
 }
 
-function AlertLectureUpdated({ alertLectureUpdated, handleClick }) {
+function AlertMiniUpdated({ alertLectureUpdated, handleClick }) {
   return (
     <div>
       <Dialog
@@ -66,11 +69,11 @@ function AlertLectureUpdated({ alertLectureUpdated, handleClick }) {
   );
 }
 
-function AlertLectureErr({ alertLecAddedErr, handleClick }) {
+function AlertMiniErr({ alertMiniAddedErr, handleClick }) {
   return (
     <div>
       <Dialog
-        open={alertLecAddedErr}
+        open={alertMiniAddedErr}
         TransitionComponent={Transition}
         keepMounted
         onClose={() => handleClick()}
@@ -78,7 +81,7 @@ function AlertLectureErr({ alertLecAddedErr, handleClick }) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Something went wrong, Please try again
+            Something went wrong, Please try again,
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -89,10 +92,56 @@ function AlertLectureErr({ alertLecAddedErr, handleClick }) {
   );
 }
 
-const Lectures = () => {
+function AlertMiniImageErr({ alertMiniImageErr, handleClick }) {
+  return (
+    <div>
+      <Dialog
+        open={alertMiniImageErr}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => handleClick()}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Max Word Length Exceeded should be 250
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClick()}>Cool</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+function AlertMiniWordErr({ alertMiniWordErr, handleClick }) {
+  return (
+    <div>
+      <Dialog
+        open={alertMiniWordErr}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => handleClick()}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Max Word Length Exceeded should be 150
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClick()}>Cool</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+const Mini = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(null);
-  const [courseId, setCourseId] = useState(null);
+
   const [contentList, setContentList] = useState([
     { paragraphs: [""], subHeading: "", images: [] },
   ]);
@@ -103,9 +152,12 @@ const Lectures = () => {
   console.log("CorId=" + CorId);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [courses, setCourses] = useState([]);
-  const [alertLecAdded, setAlertLecAdded] = useState();
-  const [alertLecAddedErr, setAlertLecAddedErr] = useState();
-  const [alertLecUpdated, setAlertLecUpdated] = useState();
+  const [Checked, setChecked] = useState(false);
+  const [alertMiniAdded, setAlertMiniAdded] = useState();
+  const [alertMiniAddedErr, setAlertMiniAddedErr] = useState();
+  const [alertMiniImageErr, setAlertMiniImageErr] = useState();
+  const [alertMiniWordErr, setAlertMiniWordErr] = useState();
+  const [alertMiniUpdated, setAlertMiniUpdated] = useState();
 
   const fetchLecture = async () => {
     await axios
@@ -128,21 +180,44 @@ const Lectures = () => {
   }, [LecId]);
 
   const updateLecture = () => {
-    axios
+    let len = 0;
+    {
+      contentList &&
+        contentList.map((item) => {
+          item.paragraphs.map((item) => {
+            len += item.split(" ").length;
+          });
+          len += item.subHeading.split(" ").length;
+        });
+    }
+    if(len>250){
+      axios
       .patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
         title: title,
         content: contentList,
         lectureId: LecId,
       })
       .then(function (response) {
-        setAlertLecAdded(true);
+        setAlertMiniAdded(true);
       })
       .catch(function (error) {
-        setAlertLecAddedErr(true);
+        setAlertMiniAddedErr(true);
       });
+    }
   };
 
   const addNewLec = () => {
+    let len = 0;
+    {
+      contentList &&
+        contentList.map((item) => {
+          item.paragraphs.map((item) => {
+            len += item.split(" ").length;
+          });
+          len += item.subHeading.split(" ").length;
+        });
+    }
+    console.log(len);
     if (selectedCourse) {
       axios
         .post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
@@ -152,19 +227,19 @@ const Lectures = () => {
           courseId: selectedCourse,
         })
         .then(function (response) {
-          setAlertLecAdded(true);
+          setAlertMiniAdded(true);
         })
         .catch(function (error) {
-          setAlertLecAddedErr(true);
+          setAlertMiniAddedErr(true);
         });
     } else {
-      setAlertLecAddedErr(true);
+      setAlertMiniAddedErr(true);
     }
   };
 
   const fetchCourses = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/client/courses`)
+      .get(`${process.env.REACT_APP_API_URL}/client/minis`)
       .then((response) => {
         setCourses(response.data);
         console.log(response.data);
@@ -176,8 +251,8 @@ const Lectures = () => {
 
   useEffect(() => {
     fetchCourses();
-    setAlertLecAdded();
-    setAlertLecAddedErr();
+    setAlertMiniAdded();
+    setAlertMiniAddedErr();
   }, []);
 
   useEffect(() => {
@@ -204,41 +279,57 @@ const Lectures = () => {
     setContentList([...contentList]);
   };
   const handleLecAddedClick = () => {
-    setAlertLecAdded(false);
+    setAlertMiniAdded(false);
     const params = {
       course_id: selectedCourse,
     };
-    let url = "/coursedetails";
+    let url = "/minidetails";
     let uri = axios.getUri({ url, params });
     navigate(uri);
   };
 
   const handleLecAddedErrClick = () => {
-    setAlertLecAddedErr(false);
+    setAlertMiniAddedErr(false);
+  };
+
+  const handleLecWordErrClick = () => {
+    setAlertMiniAddedErr(false);
+  };
+  
+  const handleLecImageErrClick = () => {
+    setAlertMiniAddedErr(false);
   };
 
   const handleLecUpdated = () => {
-    setAlertLecUpdated(false);
+    setAlertMiniUpdated(false);
     const params = {
       course_id: selectedCourse,
     };
-    let url = "/coursedetails";
+    let url = "/minidetails";
     let uri = axios.getUri({ url, params });
     navigate(uri);
   };
 
   return (
     <div>
-      <AlertLectureAdded
-        alertLecAdded={alertLecAdded}
+      <AlertMiniAdded
+        alertMiniAdded={alertMiniAdded}
         handleClick={handleLecAddedClick}
       />
-      <AlertLectureErr
-        alertLecAddedErr={alertLecAddedErr}
+      <AlertMiniErr
+        alertMiniAddedErr={alertMiniAddedErr}
         handleClick={handleLecAddedErrClick}
       />
-      <AlertLectureUpdated
-        alertLecUpdated={alertLecUpdated}
+      <AlertMiniWordErr
+        alertMiniAddedErr={alertMiniWordErr}
+        handleClick={() => setAlertMiniWordErr(false)}
+      />
+      <AlertMiniImageErr
+        alertMiniAddedErr={alertMiniImageErr}
+        handleClick={handleLecImageErrClick}
+      />
+      <AlertMiniUpdated
+        alertUpdated={alertMiniUpdated}
         handleClick={handleLecUpdated}
       />
       <div style={{ margin: "2rem" }}>
@@ -254,7 +345,7 @@ const Lectures = () => {
               shrink={selectedCourse ? true : false}
               id="demo-simple-select-helper-label"
             >
-              Select course
+              Select Mini
             </InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
@@ -271,6 +362,15 @@ const Lectures = () => {
           </FormControl>
         </div>
         <h2>Content</h2>
+        <FormControlLabel
+          value="end"
+          control={<Checkbox />}
+          label="Image"
+          labelPlacement="end"
+          onChange={() => {
+            setChecked(!Checked);
+          }}
+        />
         {contentList.map((item, indexSubH) => (
           <div style={{ marginBottom: "2rem" }}>
             <div>
@@ -298,14 +398,6 @@ const Lectures = () => {
                 setContentList([...contentList]);
               }}
             />
-            <Button
-              variant="contained"
-              style={{ display: "block" }}
-              onClick={handleSubHeadingRemove}
-              className="button"
-            >
-              Remove Subheading
-            </Button>
             {contentList.length - 1 === indexSubH && (
               <Button
                 variant="contained"
@@ -319,11 +411,11 @@ const Lectures = () => {
           </div>
         ))}
         <Button variant="contained" onClick={LecId ? updateLecture : addNewLec}>
-          {LecId ? "Update Lecture" : "Add Lecture"}
+          {LecId ? "Update Mini" : "Add Mini"}
         </Button>
       </div>
     </div>
   );
 };
 
-export default Lectures;
+export default Mini;

@@ -9,17 +9,19 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import FolderIcon from "@mui/icons-material/Folder";
+import Button from "@mui/material/Button";
+// import Tooltip from '@mui/material/tooltip';
 import DeleteIcon from "@mui/icons-material/Delete";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import FolderIcon from "@mui/icons-material/Folder";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import Slide from "@mui/material/Slide";
 import DialogContentText from "@mui/material/DialogContentText";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 const Demo = styled("div")(({ theme }) => ({
@@ -53,8 +55,9 @@ function AlertDelete({ del, handleClick, id, handleClose }) {
   );
 }
 
-export default function InteractiveList() {
-  const [usersData, setUsersData] = useState(null);
+export default function Assignments() {
+  const [asgnData, setAsgnData] = useState(null);
+  let [searchParams, setSearchParams] = useSearchParams();
   const [delDialog, setDelDialog] = useState(false);
   const [id, setId] = useState();
 
@@ -62,34 +65,30 @@ export default function InteractiveList() {
   const ITEMS_PER_PAGE = 10;
   const MAX_VISIBLE_PAGES = 10;
 
-  let [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const courseId = searchParams.get("course_id");
-  console.log("courseId=" + courseId);
-  let url = "/lectures";
+  const lecId = searchParams.get("lectureId");
+  console.log("lecId=" + lecId);
 
-  const fetchUsers = async () => {
+  const fetchAssignments = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/client/users`)
+      .get(`${process.env.REACT_APP_API_URL}/client/getMiniAssignments`)
       .then((response) => {
-        setUsersData(response.data);
+        setAsgnData(response.data);
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const handleDeleteAxios = async (userId) => {
+
+  const handleDeleteAxios = async (asgnId, lecId) => {
     await axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/client/user/delete?id=${userId}`,
-        {
-          userId: userId,
-        }
-      )
+      .post(`${process.env.REACT_APP_API_URL}/client/assignment/delete`, {
+        asgnId: asgnId,
+        lectureId: lecId,
+      })
       .then((response) => {
         console.log(response.data);
-        setUsersData(usersData.filter((users) => users._id !== userId));
+        setAsgnData(asgnData.filter((asgn) => asgn._id !== asgnId));
         setDelDialog(false);
       })
       .catch((error) => {
@@ -98,14 +97,14 @@ export default function InteractiveList() {
   };
 
   const getCurrentPageData = () => {
-    if (!usersData) return [];
+    if (!asgnData) return [];
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return usersData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    return asgnData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   };
 
   const getPaginationRange = () => {
-    if (!usersData) return [];
-    const totalPages = Math.ceil(usersData.length / ITEMS_PER_PAGE);
+    if (!asgnData) return [];
+    const totalPages = Math.ceil(asgnData.length / ITEMS_PER_PAGE);
 
     if (totalPages <= MAX_VISIBLE_PAGES) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -157,12 +156,17 @@ export default function InteractiveList() {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchAssignments();
   }, []);
 
-  // console.log(lecData)
+  useEffect(() => {
+    if (lecId)
+      setAsgnData(asgnData?.filter((asgn) => asgn.lectureId === lecId));
+  }, [asgnData]);
+
+  // console.log(asgnData)
   return (
-    <Box sx={{ flexGrow: 5, maxWidth: 752 }} className="user">
+    <Box sx={{ flexGrow: 1, maxWidth: 752 }} className="assigment">
       {delDialog && (
         <AlertDelete
           del={delDialog}
@@ -171,21 +175,21 @@ export default function InteractiveList() {
           handleClose={handleClose}
         />
       )}
-      <div className="userHeading">
-        <h1>User List</h1>
-        <Button variant="contained" component={Link} to={"/users/add"}>
-          Add User
+      <div className="assigmentHeading">
+        <h1>Assignment List</h1>
+        <Button variant="contained" component={Link} to={"/miniAssign/add"}>
+          Add Assignment
         </Button>
       </div>
-      <Demo className="userList">
-        <List className="userLisst">
+      <Demo className="assigmentList">
+        <List className="assigmentLisst">
           {getCurrentPageData()?.map((item) => (
             // create a list of lectures with link to lecture details
-
-            <div className="listItem">
+            <div className="assigmentItem">
               <ListItem
                 key={item._id}
                 secondaryAction={
+                  // <Tooltip title="Delete" arrow>
                   <IconButton
                     edge="end"
                     aria-label="delete"
@@ -193,12 +197,15 @@ export default function InteractiveList() {
                   >
                     <DeleteIcon />
                   </IconButton>
+                  // </Tooltip>
                 }
               >
-                <ListItemText
-                  primary={item.first_name + " " + item.last_name}
-                  secondary={item.email}
-                />
+                <ListItemAvatar>
+                  <Avatar>
+                    <QuestionAnswerIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={item.question} />
               </ListItem>
             </div>
           ))}

@@ -20,8 +20,3 @@
 .buttonArea {
     margin-top: 0.5rem;
 }
-
-.fields{
-    display: flex;
-    place-items: center;
-}

@@ -25,7 +25,7 @@ export default function MultilineTextFields() {
     const fetchCourses = async () => {
         await axios({
             method: "get",
-            url: `${process.env.REACT_APP_API_URL}/client/courses`,
+            url: `${process.env.REACT_APP_API_URL}/client/minis`,
         }).then((res) => {
             console.log(res);
             setCourseData(res.data);

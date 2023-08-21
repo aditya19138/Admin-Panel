@@ -1,0 +1,21 @@
+.module{
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+
+.moduleList{
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    background-color: #191F45;
+}
+
+.moduleLisst{
+    background-color: #191F45;
+}
+
+.moduleItem{
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    background-color: #757575;
+}

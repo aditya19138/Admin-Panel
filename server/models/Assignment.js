@@ -26,5 +26,5 @@ const AssignmentSchema = new Schema({
 
 }, { timestamps: { uploadedAt: 'created_at' } });
 
-const Assignments = mongoose.model('assignments', AssignmentSchema)
+const Assignments = mongoose.model('Assignment', AssignmentSchema)
 export default Assignments
