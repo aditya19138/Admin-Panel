@@ -53,7 +53,7 @@ const navItems = [
     icon: <ShoppingCartOutlined />
   },
   {
-    text: "MiniAssign",
+    text: "AddMiniAssign",
     icon: <ShoppingCartOutlined />
   },
   {

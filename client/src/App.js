@@ -21,7 +21,6 @@ import AddUser from "scenes/addUser";
 import NFTs from "scenes/nfts";
 import MiniLec from "scenes/mini/lecture";
 import MiniLecDetails from "scenes/mini/coursedetails";
-import MiniAssign from "scenes/mini/assignments";
 import AddMiniAssign from "scenes/mini/addAssignment";
 
 
@@ -44,8 +43,7 @@ function App() {
                 <Route path="/lecture" element={<Lectures />} /> // route for lecture details
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/minilec" element={<MiniLec />} />
-                <Route path="/miniAssign" element={<MiniAssign />} />
-                <Route path="/miniAssign/add" element={<AddMiniAssign />} />
+                <Route path="/addminiAssign" element={<AddMiniAssign />} />
                 <Route path="/courses/add" element={<AddCourse />} />
                 <Route path="/enrollments" element={<Enrollments />} />
                 <Route path="/users" element={<Users />} /> 

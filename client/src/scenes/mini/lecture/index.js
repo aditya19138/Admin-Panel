@@ -104,7 +104,7 @@ function AlertMiniImageErr({ alertMiniImageErr, handleClick }) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Max Word Length Exceeded should be 250
+            Max Word Length Exceeded should be 150
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -127,7 +127,7 @@ function AlertMiniWordErr({ alertMiniWordErr, handleClick }) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Max Word Length Exceeded should be 150
+            Max Word Length Exceeded should be 250
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -144,6 +144,7 @@ const Mini = () => {
 
   const [contentList, setContentList] = useState([
     { paragraphs: [""], subHeading: "", images: [] },
+
   ]);
   const editorRef = useRef(null);
   let [searchParams, setSearchParams] = useSearchParams();
@@ -179,19 +180,23 @@ const Mini = () => {
     if (LecId) fetchLecture();
   }, [LecId]);
 
-  const updateLecture = () => {
-    let len = 0;
-    {
-      contentList &&
-        contentList.map((item) => {
-          item.paragraphs.map((item) => {
-            len += item.split(" ").length;
-          });
-          len += item.subHeading.split(" ").length;
+  const imgTag = new RegExp(
+    '(<img)[^/>]*(/>|>)'
+  )
+
+  useEffect(() => {
+    if (contentList) {
+      contentList.forEach((item) => {
+        item.paragraphs.forEach((item) => {
+          const arr = item.split(" ");
+          arr.map((item)=>{if(imgTag.test(item)){setChecked(true)}})
         });
+      });
     }
-    if(len>250){
-      axios
+  }, [contentList]);
+
+  const updateLectureApi = () => {
+    axios
       .patch(`${process.env.REACT_APP_API_URL}/client/lecture/update`, {
         title: title,
         content: contentList,
@@ -203,8 +208,42 @@ const Mini = () => {
       .catch(function (error) {
         setAlertMiniAddedErr(true);
       });
+  }
+
+  const updateLecture = () => {
+    let len = 0;
+    {
+      contentList &&
+        contentList.map((item) => {
+          item.paragraphs.map((item) => {
+            len += item.split(" ").length;
+          });
+          len += item.subHeading.split(" ").length;
+        });
+    }
+    if (Checked) {
+      { len <= 150 ? updateLectureApi() : setAlertMiniImageErr(true) }
+    }
+    else {
+      { len <= 250 ? updateLectureApi() : setAlertMiniWordErr(true) }
     }
   };
+
+  const addNewLecApi = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
+        no: 1,
+        title: title,
+        content: contentList,
+        courseId: selectedCourse,
+      })
+      .then(function (response) {
+        setAlertMiniAdded(true);
+      })
+      .catch(function (error) {
+        setAlertMiniAddedErr(true);
+      });
+  }
 
   const addNewLec = () => {
     let len = 0;
@@ -217,21 +256,13 @@ const Mini = () => {
           len += item.subHeading.split(" ").length;
         });
     }
-    console.log(len);
     if (selectedCourse) {
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/client/lecture/add`, {
-          no: 1,
-          title: title,
-          content: contentList,
-          courseId: selectedCourse,
-        })
-        .then(function (response) {
-          setAlertMiniAdded(true);
-        })
-        .catch(function (error) {
-          setAlertMiniAddedErr(true);
-        });
+      if (Checked) {
+        { len <= 150 ? addNewLecApi() : setAlertMiniImageErr(true) }
+      }
+      else {
+        { len <= 250 ? addNewLecApi() : setAlertMiniWordErr(true) }
+      }
     } else {
       setAlertMiniAddedErr(true);
     }
@@ -251,13 +282,9 @@ const Mini = () => {
 
   useEffect(() => {
     fetchCourses();
-    setAlertMiniAdded();
-    setAlertMiniAddedErr();
   }, []);
 
-  useEffect(() => {
-    console.log(contentList);
-  }, [contentList]);
+
 
   const handleParagraphAdd = (index) => {
     contentList[index].paragraphs.push("");
@@ -283,21 +310,9 @@ const Mini = () => {
     const params = {
       course_id: selectedCourse,
     };
-    let url = "/minidetails";
+    let url = "/minilecdetails";
     let uri = axios.getUri({ url, params });
     navigate(uri);
-  };
-
-  const handleLecAddedErrClick = () => {
-    setAlertMiniAddedErr(false);
-  };
-
-  const handleLecWordErrClick = () => {
-    setAlertMiniAddedErr(false);
-  };
-  
-  const handleLecImageErrClick = () => {
-    setAlertMiniAddedErr(false);
   };
 
   const handleLecUpdated = () => {
@@ -305,7 +320,7 @@ const Mini = () => {
     const params = {
       course_id: selectedCourse,
     };
-    let url = "/minidetails";
+    let url = "/minilecdetails";
     let uri = axios.getUri({ url, params });
     navigate(uri);
   };
@@ -318,15 +333,15 @@ const Mini = () => {
       />
       <AlertMiniErr
         alertMiniAddedErr={alertMiniAddedErr}
-        handleClick={handleLecAddedErrClick}
+        handleClick={() => setAlertMiniAddedErr(false)}
       />
       <AlertMiniWordErr
-        alertMiniAddedErr={alertMiniWordErr}
+        alertMiniWordErr={alertMiniWordErr}
         handleClick={() => setAlertMiniWordErr(false)}
       />
       <AlertMiniImageErr
-        alertMiniAddedErr={alertMiniImageErr}
-        handleClick={handleLecImageErrClick}
+        alertMiniImageErr={alertMiniImageErr}
+        handleClick={() => setAlertMiniImageErr(false)}
       />
       <AlertMiniUpdated
         alertUpdated={alertMiniUpdated}
@@ -365,6 +380,7 @@ const Mini = () => {
         <FormControlLabel
           value="end"
           control={<Checkbox />}
+          checked={Checked}
           label="Image"
           labelPlacement="end"
           onChange={() => {
@@ -398,6 +414,14 @@ const Mini = () => {
                 setContentList([...contentList]);
               }}
             />
+            <Button
+              variant="contained"
+              style={{ display: "block" }}
+              onClick={handleSubHeadingRemove}
+              className="button"
+            >
+              Remove Subheading
+            </Button>
             {contentList.length - 1 === indexSubH && (
               <Button
                 variant="contained"

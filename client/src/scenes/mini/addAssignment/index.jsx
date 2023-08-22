@@ -15,7 +15,6 @@ export default function MultilineTextFields() {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedLecture, setSelectedLecture] = useState(null);
     const [question, setQuestion] = useState(null);
-    const [quesType, setQuesType] = useState("multi-line");
     const [answer, setAnswer] = useState(null);
     const [option1, setOption1] = useState(null);
     const [option2, setOption2] = useState(null);
@@ -29,7 +28,6 @@ export default function MultilineTextFields() {
         }).then((res) => {
             console.log(res);
             setCourseData(res.data);
-            // console.log(courseData);
         });
     };
     const fetchLectures = async () => {
@@ -50,7 +48,7 @@ export default function MultilineTextFields() {
         await axios.post(`${process.env.REACT_APP_API_URL}/client/assignments/add`, {
             lectureId: lectureId,
             question: question,
-            type: quesType,
+            type: "multi-line",
             options: options,
             correctAns: answer
         }).then((response) => {
@@ -116,21 +114,6 @@ export default function MultilineTextFields() {
                         ))}
                     </Select>
                 </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 220 }}>
-                    <InputLabel id="demo-simple-select-helper-label">Select Question Type</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={quesType}
-                        label="Select Question Type"
-                        onChange={(e) => setQuesType(e.target.value) && console.log(e.target.value)}
-                    >
-                        <MenuItem value="multi-line">Multi-line</MenuItem>
-                        <MenuItem value="single-line">Single-line</MenuItem>
-
-
-                    </Select>
-                </FormControl>
             </div>
             <div style={{ marginLeft: '1.5rem' }}>
                 <TextField
@@ -141,7 +124,6 @@ export default function MultilineTextFields() {
                     onChange={(e) => setQuestion(e.target.value)}
                 />
             </div>
-            {(quesType === "multi-line") && (
                 <div style={{ marginLeft: '1.5rem' }}>
                     <TextField
                         id="filled-multiline-flexible "
@@ -179,7 +161,7 @@ export default function MultilineTextFields() {
                         variant="filled"
                         onChange={(e) => setOption4(e.target.value)}
                     />
-                </div>)}
+                </div>
             <div style={{ display: 'flex', flexDirection: 'column', marginLeft: "1.5rem" }}>
                 <TextField
                     id="filled-multiline-flexible "
