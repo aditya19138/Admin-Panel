@@ -138,7 +138,7 @@ export const deleteUser = async (req, res) => {
 
 // get request to get all the assignments
 export const getAssignments = async (req, res) => {
-  Assignment.find({Course_type: {$ne : "Mini"}}).then((assignments) => {
+  Assignment.find().then((assignments) => {
     res.status(200).json(assignments)
   })
 }
