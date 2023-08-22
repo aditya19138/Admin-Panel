@@ -19,7 +19,7 @@ import {
   getNFTs,
   getMintedNfts,
   getMiniCourses,
-  getLecCourses
+  getLecCourses,
 
 } from "../controllers/client.js";
 

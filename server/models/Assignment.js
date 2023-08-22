@@ -14,9 +14,7 @@ const AssignmentSchema = new Schema({
     assignmenttype: {
         type: String,
     },
-
     lectureId: { type: Schema.Types.ObjectId, ref: 'Lecture' },
-
     //store multiple choice questions in an array and store the correct answer
     //in the correctAnswer field
     multiplechoices: [{

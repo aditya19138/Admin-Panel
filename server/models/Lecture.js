@@ -15,7 +15,6 @@ const LectureSchema = new Schema({
         subHeading: String,
         paragraphs: [{ type: String }],
         images: [{ type: String }],
-
     }
     ],
     assignments: [{

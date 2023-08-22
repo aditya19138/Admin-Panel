@@ -138,7 +138,7 @@ export const deleteUser = async (req, res) => {
 
 // get request to get all the assignments
 export const getAssignments = async (req, res) => {
-  Assignment.find().then((assignments) => {
+  Assignment.find({Course_type: {$ne : "Mini"}}).then((assignments) => {
     res.status(200).json(assignments)
   })
 }
@@ -254,37 +254,4 @@ export const getMiniCourses = async (req, res) => {
     })
 }
 
-// get request to get all the assignments
-export const getMiniAssignments = async (req, res) => {
-  Assignment.find().then((assignments) => {
-    res.status(200).json(assignments)
-  })
-}
-// post request to add a new assignment
-export const addMiniAssignment = async (req, res) => {
-  const { lectureId, question, options, correctAns, type } = req.body;
-  const mcq = {
-    options: options,
-    correctAnswer: correctAns
-  }
-  const newAsgn = new Assignment({
-    question: question,
-    lectureId: lectureId,
-    multiplechoices: [mcq],
-    assignmenttype: type
-
-  });
-  newAsgn.save()
-    .then((asgn) => res.send(asgn))
-}
-
-// post request to delete an assignment
-export const deleteMiniAsgn = async (req, res) => {
-  const { asgnId, lectureId } = req.body;
-  console.log(asgnId, lectureId)
-  Assignment.findByIdAndDelete(asgnId)
-    .then((asgn) => console.log(asgn))
-    .catch((err) => res.status(500).json({ message: err.message }))
-  res.status(200).json({ message: "assignment deleted successfully " })
-}
 
