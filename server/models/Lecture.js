@@ -10,13 +10,18 @@ const LectureSchema = new Schema({
         type: String,
         required: true
     },
-    course: { type: Schema.Types.ObjectId, ref: 'courses' },
-    content: String,
+    course: { type: Schema.Types.ObjectId, ref: 'courses', required: true },
+    content: [{
+        subHeading: String,
+        paragraphs: [{ type: String }],
+        images: [{ type: String }],
+    }
+    ],
     assignments: [{
         type: Schema.Types.ObjectId,
         ref: "Assignment"
     }],
 }, { timestamps: { uploadedAt: 'created_at' } });
 
-const Lecture = mongoose.model('lectures', LectureSchema);
+const Lecture = mongoose.model('Lecture', LectureSchema);
 export default Lecture;

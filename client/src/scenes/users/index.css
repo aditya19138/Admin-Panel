@@ -1,0 +1,42 @@
+.user {
+  margin-top: 0.5rem;
+  margin-left: 20px;
+  width: calc(100% - 60px) !important;
+}
+
+.userHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userList {
+  margin-top: 0.2rem;
+  border-radius: 1rem;
+  background-color: #191f45;
+}
+
+.userLisst {
+  background-color: #191f45;
+}
+
+.listItem {
+  margin-bottom: 0.5rem;
+  border-radius: 1rem;
+  background-color: slategray;
+}
+
+.listItem :hover {
+  cursor: pointer;
+  border-radius: 1rem;
+  background-color: red;
+}
+
+.pagination {
+  border-radius: 1rem;
+  background-color: #191f45;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 2rem;
+}

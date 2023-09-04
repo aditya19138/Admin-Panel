@@ -1,0 +1,27 @@
+.enroll{
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+
+.enrollHeading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.enrollList{
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    background-color: #191F45;
+}
+
+.enrollLisst{
+    background-color: #191F45;
+}
+
+.enrollItem{
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    background-color: slategray;
+}
